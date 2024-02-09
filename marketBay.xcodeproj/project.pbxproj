@@ -8,17 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		99B5E6CD2B75CAC700C0786A /* marketBayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6CC2B75CAC700C0786A /* marketBayApp.swift */; };
-		99B5E6CF2B75CAC700C0786A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6CE2B75CAC700C0786A /* ContentView.swift */; };
 		99B5E6D12B75CACA00C0786A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99B5E6D02B75CACA00C0786A /* Assets.xcassets */; };
 		99B5E6D42B75CACA00C0786A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99B5E6D32B75CACA00C0786A /* Preview Assets.xcassets */; };
+		99B5E6DB2B75CB0500C0786A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6DA2B75CB0500C0786A /* DashboardView.swift */; };
+		99B5E6DD2B75CC3700C0786A /* MenuTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6DC2B75CC3700C0786A /* MenuTemplate.swift */; };
+		99B5E6DF2B75CC9C00C0786A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6DE2B75CC9C00C0786A /* LoginView.swift */; };
+		99B5E6E12B75CCBB00C0786A /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6E02B75CCBB00C0786A /* RegistrationView.swift */; };
+		99B5E6E32B75D28100C0786A /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6E22B75D28100C0786A /* FavoritesView.swift */; };
+		99B5E6E62B75D4BA00C0786A /* Screens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6E52B75D4BA00C0786A /* Screens.swift */; };
+		99B5E6E82B75D57F00C0786A /* MyPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6E72B75D57F00C0786A /* MyPostsView.swift */; };
+		99B5E6EA2B75D5D700C0786A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6E92B75D5D700C0786A /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		99B5E6C92B75CAC700C0786A /* marketBay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = marketBay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99B5E6CC2B75CAC700C0786A /* marketBayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = marketBayApp.swift; sourceTree = "<group>"; };
-		99B5E6CE2B75CAC700C0786A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		99B5E6D02B75CACA00C0786A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		99B5E6D32B75CACA00C0786A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		99B5E6DA2B75CB0500C0786A /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		99B5E6DC2B75CC3700C0786A /* MenuTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTemplate.swift; sourceTree = "<group>"; };
+		99B5E6DE2B75CC9C00C0786A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		99B5E6E02B75CCBB00C0786A /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
+		99B5E6E22B75D28100C0786A /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
+		99B5E6E52B75D4BA00C0786A /* Screens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screens.swift; sourceTree = "<group>"; };
+		99B5E6E72B75D57F00C0786A /* MyPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsView.swift; sourceTree = "<group>"; };
+		99B5E6E92B75D5D700C0786A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +66,14 @@
 			isa = PBXGroup;
 			children = (
 				99B5E6CC2B75CAC700C0786A /* marketBayApp.swift */,
-				99B5E6CE2B75CAC700C0786A /* ContentView.swift */,
+				99B5E6EB2B75D64C00C0786A /* fragments */,
+				99B5E6E42B75D4AE00C0786A /* enums */,
+				99B5E6DA2B75CB0500C0786A /* DashboardView.swift */,
+				99B5E6DE2B75CC9C00C0786A /* LoginView.swift */,
+				99B5E6E02B75CCBB00C0786A /* RegistrationView.swift */,
+				99B5E6E72B75D57F00C0786A /* MyPostsView.swift */,
+				99B5E6E22B75D28100C0786A /* FavoritesView.swift */,
+				99B5E6E92B75D5D700C0786A /* ProfileView.swift */,
 				99B5E6D02B75CACA00C0786A /* Assets.xcassets */,
 				99B5E6D22B75CACA00C0786A /* Preview Content */,
 			);
@@ -65,6 +86,22 @@
 				99B5E6D32B75CACA00C0786A /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		99B5E6E42B75D4AE00C0786A /* enums */ = {
+			isa = PBXGroup;
+			children = (
+				99B5E6E52B75D4BA00C0786A /* Screens.swift */,
+			);
+			path = enums;
+			sourceTree = "<group>";
+		};
+		99B5E6EB2B75D64C00C0786A /* fragments */ = {
+			isa = PBXGroup;
+			children = (
+				99B5E6DC2B75CC3700C0786A /* MenuTemplate.swift */,
+			);
+			path = fragments;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +174,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99B5E6CF2B75CAC700C0786A /* ContentView.swift in Sources */,
+				99B5E6DD2B75CC3700C0786A /* MenuTemplate.swift in Sources */,
+				99B5E6EA2B75D5D700C0786A /* ProfileView.swift in Sources */,
+				99B5E6DB2B75CB0500C0786A /* DashboardView.swift in Sources */,
+				99B5E6E32B75D28100C0786A /* FavoritesView.swift in Sources */,
+				99B5E6DF2B75CC9C00C0786A /* LoginView.swift in Sources */,
+				99B5E6E62B75D4BA00C0786A /* Screens.swift in Sources */,
 				99B5E6CD2B75CAC700C0786A /* marketBayApp.swift in Sources */,
+				99B5E6E82B75D57F00C0786A /* MyPostsView.swift in Sources */,
+				99B5E6E12B75CCBB00C0786A /* RegistrationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
