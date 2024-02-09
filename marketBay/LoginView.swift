@@ -28,7 +28,6 @@ struct LoginView: View {
         .padding()
         .navigationTitle("LOGIN")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden()
     }
 }
 

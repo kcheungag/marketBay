@@ -22,7 +22,6 @@ struct RegistrationView: View {
         .padding()
         .navigationTitle("REGISTRATION")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden()
     }
 }
 
