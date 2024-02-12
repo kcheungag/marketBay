@@ -65,15 +65,19 @@ struct LoginView: View {
     }
     
     func validateLogin(){
+        //empty field validation
         if self.emailFromUI.isEmpty || self.passwordFromUI.isEmpty{
             self.errorMessage = "Please enter a valid email address and password"
             return
         }
+        //validate enterred credentials - hardcoded for the interim
         if self.emailFromUI == "Dayeeta@gmail.com" && self.passwordFromUI == "Dayeeta"{
+            self.errorMessage = ""
             dismiss()
         }
         else{
             self.errorMessage = "Invalid Credentials"
+            return
         }
     }
 }

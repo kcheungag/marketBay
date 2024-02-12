@@ -30,7 +30,7 @@ struct RegistrationView: View {
                 .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
                 .keyboardType(.emailAddress)
             Text("Password")
-            SecureField("Enter password", text: self.$passwordFromUI)
+            SecureField("Enter password (min 6 characters)", text: self.$passwordFromUI)
                 .autocorrectionDisabled(true)
                 .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
             Text("Phone Number")
@@ -67,8 +67,34 @@ struct RegistrationView: View {
     }
     
     func validateRegistration(){
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        
+        //empty field validation
         if self.nameFromUI.isEmpty || self.emailFromUI.isEmpty || self.passwordFromUI.isEmpty || self.phoneNumberFromUI.isEmpty {
             self.errorMessage = "Please fill in all the fields to register"
+            return
+        }
+        //email format validation
+        else if !emailPredicate.evaluate(with: self.emailFromUI){
+            self.errorMessage = "Invalid Email Format"
+            return
+        }
+        //phonenumber format validation
+        else if Int(self.phoneNumberFromUI) == nil || self.phoneNumberFromUI.count != 10{
+            self.errorMessage = "Invalid Phone Number Format"
+            return
+        }
+        //password length validation
+        else if self.passwordFromUI.count < 6{
+            self.errorMessage = "Weak Password. Length should be greater than 6 characters."
+            return
+        }
+        //register user
+        else{
+            //logic to add registration
+            self.errorMessage = ""
+            dismiss()
         }
     }
 }
