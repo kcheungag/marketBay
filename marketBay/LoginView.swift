@@ -12,9 +12,11 @@ struct LoginView: View {
     @State private var emailFromUI : String = ""
     @State private var passwordFromUI : String = ""
     @State private var rememberUser : Bool = false
+    @State private var errorMessage : String = ""
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10.0){
+            Spacer()
             Text("Email")
             TextField("Enter email address", text: self.$emailFromUI)
                 .autocorrectionDisabled(true)
@@ -27,11 +29,24 @@ struct LoginView: View {
             Toggle(isOn: self.$rememberUser){
                 Text("Remember Me")
             }
+            .tint(.yellow)
+            Spacer()
+            HStack{
+                Spacer()
+                Text(self.errorMessage)
+                    .padding(self.errorMessage.isEmpty ? 0.0 : 5.0)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.white)
+                    .background(.red)
+                    .font(.title3)
+                    .cornerRadius(10.0)
+                Spacer()
+            }
             Spacer()
             HStack{
                 Spacer()
                 Button {
-                    dismiss()
+                   validateLogin()
                 }label: {
                     Text("L O G I N")
                 }
@@ -47,6 +62,19 @@ struct LoginView: View {
         .padding()
         .navigationTitle(Text("LOGIN"))
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    func validateLogin(){
+        if self.emailFromUI.isEmpty || self.passwordFromUI.isEmpty{
+            self.errorMessage = "Please enter a valid email address and password"
+            return
+        }
+        if self.emailFromUI == "Dayeeta@gmail.com" && self.passwordFromUI == "Dayeeta"{
+            dismiss()
+        }
+        else{
+            self.errorMessage = "Invalid Credentials"
+        }
     }
 }
 
