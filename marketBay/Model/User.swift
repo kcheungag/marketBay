@@ -32,6 +32,14 @@ class User {
         listings.append(listing)
         saveUserData()
     }
+    
+    // Function to remove a listing
+    func removeListing(_ listing: Listing) {
+        if let index = listings.firstIndex(where: { $0.id == listing.id }) {
+            listings.remove(at: index)
+            saveUserData()
+        }
+    }
 
     // Function to add a listing to favorites
     func addToFavorites(_ listing: Listing) {
@@ -39,8 +47,18 @@ class User {
         saveUserData()
     }
     
+    // Function to remove a listing from favorites
+   func removeFromFavorites(_ listing: Listing) {
+       if let index = favorites.firstIndex(where: { $0.id == listing.id }) {
+           favorites.remove(at: index)
+           saveUserData()
+       }
+   }
+    
     // Function to save user data to UserDefaults
     private func saveUserData() {
+        var allUsersData = UserDefaults.standard.array(forKey: "allUsersData") as? [[String: Any]] ?? []
+
            let userData: [String: Any] = [
                "id": id,
                "name": name,
@@ -50,40 +68,50 @@ class User {
                "favorites": favorites.map { $0.id } // Save only favorite listing IDs
            ]
 
-           UserDefaults.standard.set(userData, forKey: "userData")
+        // Remove existing user data with the same ID, if any
+        allUsersData.removeAll { ($0["id"] as? Int) == id }
+        
+        // Append updated user data
+        allUsersData.append(userData)
+        
+        // Save all users' data
+        UserDefaults.standard.set(allUsersData, forKey: "allUsersData")
     }
 
     // Function to load user data from UserDefaults
     private func loadUserData() {
-        guard let userData = UserDefaults.standard.dictionary(forKey: "userData"),
-              let listingsIDs = userData["listings"] as? [Int],
-              let favoritesIDs = userData["favorites"] as? [Int] else {
-            return
+        guard let allUsersData = UserDefaults.standard.array(forKey: "allUsersData") as? [[String: Any]] else {
+                   return
         }
         
-        // Load listings from IDs
-        self.listings = listingsIDs.compactMap { id in
-            // Fetch listing from data source using ID
-            return nil // Placeholder for demo, replace with actual logic
+        // Find user data matching current user's ID
+        if let userData = allUsersData.first(where: { ($0["id"] as? Int) == id }) {
+            // Initialize user with loaded data
+            self.name = userData["name"] as? String ?? ""
+            self.email = userData["email"] as? String ?? ""
+            self.phoneNumber = userData["phoneNumber"] as? String ?? ""
+            
+            // Function to retrieve listings of the user
+            if let listingsIDs = userData["listings"] as? [Int] {
+                // Load listings from IDs
+                self.listings = listingsIDs.compactMap { id in
+                    // Fetch listing from data source using ID
+                    //  let listing = Listing(id: id, title: "Listing Title", description: "Listing Description", price: 0.0, sellerID: 1)
+                    //        return listing
+                    return nil // Placeholder for demo, replace with actual logic
+                }
+            }
+            
+            // Function to retrieve favorites of the user
+            if let favoritesIDs = userData["favorites"] as? [Int] {
+                // Load favorites from IDs
+                self.favorites = favoritesIDs.compactMap { id in
+                    // Fetch listing from data source using ID
+                    // let listing = Listing(id: id, title: "Listing Title", description: "Listing Description", price: 0.0, sellerID: 1)
+                    // return listing
+                    return nil // Placeholder for demo, replace with actual logic
+                }
+            }
         }
-        
-        // Load favorites from IDs
-        self.favorites = favoritesIDs.compactMap { id in
-            // Fetch listing from data source using ID
-            return nil // Placeholder for demo, replace with actual logic
-        }
-    }
-    
-
-    // Function to retrieve listings of the user
-    func getListings() -> [Listing] {
-        // Logic to fetch listings associated with this user
-        return listings // Placeholder
-    }
-
-    // Function to retrieve favorites of the user
-    func getFavorites() -> [Listing] {
-        // Logic to fetch favorites associated with this user
-        return favorites // Placeholder
     }
 }
