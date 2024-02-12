@@ -14,4 +14,5 @@ enum Screens {
     case favoritesView
     case myPostsView
     case profileView
+    case marketplaceView
 }

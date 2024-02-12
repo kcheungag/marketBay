@@ -1,7 +1,7 @@
 //
 //  DashboardView.swift
 //  marketBay
-//
+//  Have access points to ProfileView, FavoritesView, MyPostsView, 
 //  Created by EmJhey PB on 2/8/24.
 //
 

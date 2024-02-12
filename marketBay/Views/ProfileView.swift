@@ -1,20 +1,20 @@
 //
-//  FavoritesView.swift
+//  ProfileView.swift
 //  marketBay
-//
+//  For View and Edit User Credentials
 //  Created by EmJhey PB on 2/8/24.
 //
 
 import SwiftUI
 
-struct FavoritesView: View {
+struct ProfileView: View {
     var body: some View {
         VStack {
-            Text("FAVORITES")
+            Text("PROFILE")
         }
     }
 }
 
 #Preview {
-    FavoritesView()
+    ProfileView()
 }

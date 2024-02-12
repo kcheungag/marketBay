@@ -1,20 +1,20 @@
 //
-//  ProfileView.swift
+//  MyPostsView.swift
 //  marketBay
-//
+//  For View and Edit listing purpose
 //  Created by EmJhey PB on 2/8/24.
 //
 
 import SwiftUI
 
-struct ProfileView: View {
+struct MyPostsView: View {
     var body: some View {
         VStack {
-            Text("PROFILE")
+            Text("MY POSTS")
         }
     }
 }
 
 #Preview {
-    ProfileView()
+    MyPostsView()
 }
