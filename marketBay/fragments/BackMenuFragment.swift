@@ -13,12 +13,16 @@ struct BackMenuFragment: View {
     
     var body: some View {
         HStack {
+            // MARK: Custom Back Button
+            // includes logo to compansate for removal of back swipe gesture
             Button {
                 dismiss()
             } label:{
                 Image(systemName: "chevron.backward")
                     .imageScale(.large)
                     .foregroundColor(.blue)
+                
+                // MARK: Logo
                 Image(.marketBay)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -28,6 +32,7 @@ struct BackMenuFragment: View {
             Spacer()
             
             Menu {
+                // MARK: Root Screens Menu Items
                 let rootScreens = appRootManager.rootScreens
                 ForEach(rootScreens.indices) { index in
                     if(appRootManager.currentRoot != rootScreens[index].1) {
@@ -40,6 +45,7 @@ struct BackMenuFragment: View {
                     }
                 }
                 
+                // MARK: Logout Menu Item
                 Button (role:.destructive) {
                     appRootManager.currentRoot = .dashboardView
                 } label:{

@@ -12,6 +12,7 @@ struct MenuTemplate: View {
     
     var body: some View {
         HStack {
+            // MARK: Logo
             Image(.marketBay)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -20,6 +21,7 @@ struct MenuTemplate: View {
             Spacer()
             
             Menu {
+                // MARK: Root Screens Menu Items
                 let rootScreens = appRootManager.rootScreens
                 ForEach(rootScreens.indices) { index in
                     if(appRootManager.currentRoot != rootScreens[index].1) {
@@ -32,6 +34,7 @@ struct MenuTemplate: View {
                     }
                 }
                 
+                // MARK: Logout Menu Item
                 Button (role:.destructive) {
                     appRootManager.currentRoot = .dashboardView
                 } label:{
