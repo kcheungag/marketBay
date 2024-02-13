@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Listing {
+struct Listing: Codable {
     let id: Int
     let title: String
     let description: String
@@ -19,13 +19,15 @@ struct Listing {
     
     // Initializer
     init(id: Int, title: String, description: String, category: String, price: Double, seller: User, email: String, phoneNumber: String) {
-            self.id = id
-            self.title = title
-            self.description = description
-            self.category = category
-            self.price = price
-            self.seller = seller
-            self.email = email
-            self.phoneNumber = phoneNumber
-       }
+        self.id = id
+        self.title = title
+        self.description = description
+        self.category = category
+        self.price = price
+        self.seller = seller
+        self.email = email
+        self.phoneNumber = phoneNumber
+        
+        DataAccess().savePosts(post: self)
+    }
 }

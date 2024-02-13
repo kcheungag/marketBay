@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct MyPostsView: View {
+    @EnvironmentObject var dataAccess: DataAccess
+    
     var body: some View {
         NavigationStack() {
-            MenuTemplate()
+            MenuTemplate().environmentObject(dataAccess)
+            Text("My Posts")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.top)
             VStack {
                 Spacer()
                 NavigationLink(destination: CreatePostView()) {
