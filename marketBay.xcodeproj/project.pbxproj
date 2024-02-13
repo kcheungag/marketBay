@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		821BC5AF2B7B03E000798E22 /* GlobalVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821BC5AE2B7B03E000798E22 /* GlobalVars.swift */; };
 		99B5E6CD2B75CAC700C0786A /* marketBayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6CC2B75CAC700C0786A /* marketBayApp.swift */; };
 		99B5E6D12B75CACA00C0786A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99B5E6D02B75CACA00C0786A /* Assets.xcassets */; };
 		99B5E6D42B75CACA00C0786A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99B5E6D32B75CACA00C0786A /* Preview Assets.xcassets */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		821BC5AE2B7B03E000798E22 /* GlobalVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVars.swift; sourceTree = "<group>"; };
 		99B5E6C92B75CAC700C0786A /* marketBay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = marketBay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99B5E6CC2B75CAC700C0786A /* marketBayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = marketBayApp.swift; sourceTree = "<group>"; };
 		99B5E6D02B75CACA00C0786A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			children = (
 				A6B0BE102B7AB341006A149A /* Listing.swift */,
 				A6B0BE122B7AB34E006A149A /* User.swift */,
+				821BC5AE2B7B03E000798E22 /* GlobalVars.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				99B5E6DD2B75CC3700C0786A /* MenuTemplate.swift in Sources */,
 				99B5E6EA2B75D5D700C0786A /* ProfileView.swift in Sources */,
 				A6B0BE0C2B7AAF7E006A149A /* MarketplaceView.swift in Sources */,
+				821BC5AF2B7B03E000798E22 /* GlobalVars.swift in Sources */,
 				99B5E6DB2B75CB0500C0786A /* DashboardView.swift in Sources */,
 				99B5E6E32B75D28100C0786A /* FavoritesView.swift in Sources */,
 				A6B0BE162B7AC15F006A149A /* AddPostsView.swift in Sources */,

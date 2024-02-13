@@ -92,7 +92,8 @@ struct RegistrationView: View {
         }
         //register user
         else{
-            //logic to add registration
+            let user = User(id: GlobalVars.userID, name: self.nameFromUI, email: self.emailFromUI, password: self.passwordFromUI, phoneNumber: self.phoneNumberFromUI)
+            GlobalVars.userID += 1
             self.errorMessage = ""
             dismiss()
         }
