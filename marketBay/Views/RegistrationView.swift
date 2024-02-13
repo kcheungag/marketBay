@@ -70,6 +70,10 @@ struct RegistrationView: View {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         
+        guard let allUsersData = UserDefaults.standard.array(forKey: "allUsersData") as? [[String: Any]] else {
+            return
+        }
+        
         //empty field validation
         if self.nameFromUI.isEmpty || self.emailFromUI.isEmpty || self.passwordFromUI.isEmpty || self.phoneNumberFromUI.isEmpty {
             self.errorMessage = "Please fill in all the fields to register"
@@ -88,6 +92,11 @@ struct RegistrationView: View {
         //password length validation
         else if self.passwordFromUI.count < 6{
             self.errorMessage = "Weak Password. Length should be greater than 6 characters."
+            return
+        }
+        //check if email is already registered
+        else if let userData = allUsersData.first(where: { ($0["email"] as? String) == self.emailFromUI }) {
+            self.errorMessage = "\(self.emailFromUI) is already a registered user. Please try with a different email."
             return
         }
         //register user
