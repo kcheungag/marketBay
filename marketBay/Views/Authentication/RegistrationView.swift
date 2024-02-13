@@ -18,6 +18,7 @@ struct RegistrationView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10.0) {
+            CustomBackFragment()
             Spacer()
             Text("Name")
             TextField("Enter name", text: self.$nameFromUI)
@@ -62,8 +63,9 @@ struct RegistrationView: View {
             }
         }
         .padding()
-        .navigationTitle("REGISTRATION")
-        .navigationBarTitleDisplayMode(.inline)
+//        .navigationTitle("REGISTRATION")
+//        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
     }
     
     func validateRegistration(){

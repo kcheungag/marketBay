@@ -12,81 +12,88 @@ struct FavoritesView: View {
     @State private var showCreateCollection = false
     @State private var newCollectionName = ""
     
+    @EnvironmentObject var dataAccess: DataAccess
+    
     var body: some View {
-        VStack {
-            // Back Button and Title
-            HStack {
-                Button(action: {
-                    // Action to go back
-                }) {
-                    Image(systemName: "chevron.left")
-                        .padding()
+        NavigationStack {
+            VStack {
+                MenuTemplate().environmentObject(dataAccess)
+                
+                // Back Button and Title
+//                HStack {
+//                    Button(action: {
+//                        // Action to go back
+//                    }) {
+//                        Image(systemName: "chevron.left")
+//                            .padding()
+//                    }
+//                    Spacer()
+                    Text("Favorites")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.top)
+//                    Spacer()
+//                }
+//                .padding()
+                
+                // Buttons: All Items and Collections
+                HStack {
+                    Button(action: {
+                        showAllItems = true
+                    }) {
+                        Text("All Items")
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+                            .foregroundColor(showAllItems ? .white : .blue)
+                            .background(showAllItems ? Color.blue : Color.white)
+                            .cornerRadius(20)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.blue, lineWidth: 1)
+                            )
+                    }
+                    
+                    Button(action: {
+                        showAllItems = false
+                    }) {
+                        Text("Collections")
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+                            .foregroundColor(!showAllItems ? .white : .blue)
+                            .background(!showAllItems ? Color.blue : Color.white)
+                            .cornerRadius(20)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.blue, lineWidth: 1)
+                            )
+                    }
                 }
-                Spacer()
-                Text("Favorites")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.top)
-                Spacer()
-            }
-            .padding()
-            
-            // Buttons: All Items and Collections
-            HStack {
-                Button(action: {
-                    showAllItems = true
-                }) {
-                    Text("All Items")
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                        .foregroundColor(showAllItems ? .white : .blue)
-                        .background(showAllItems ? Color.blue : Color.white)
-                        .cornerRadius(20)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.blue, lineWidth: 1)
-                        )
+                .padding()
+                
+                // Favorites List or Collections Grid
+                if showAllItems {
+                    // List of all items
+                    FavoritesListView()
+                } else {
+                    // Grid of collections
+                    CollectionsGridView()
                 }
                 
+                // Create Collection Button
                 Button(action: {
-                    showAllItems = false
+                    showCreateCollection = true
                 }) {
-                    Text("Collections")
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                        .foregroundColor(!showAllItems ? .white : .blue)
-                        .background(!showAllItems ? Color.blue : Color.white)
-                        .cornerRadius(20)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.blue, lineWidth: 1)
-                        )
+                    Text("Create a Collection")
+                        .padding()
+                        .foregroundColor(.blue)
                 }
+                .sheet(isPresented: $showCreateCollection) {
+                    CreateCollectionView(isPresented: $showCreateCollection, collectionName: $newCollectionName)
+                }
+                
+                Spacer()
             }
             .padding()
-            
-            // Favorites List or Collections Grid
-            if showAllItems {
-                // List of all items
-                FavoritesListView()
-            } else {
-                // Grid of collections
-                CollectionsGridView()
-            }
-            
-            // Create Collection Button
-            Button(action: {
-                showCreateCollection = true
-            }) {
-                Text("Create a Collection")
-                    .padding()
-                    .foregroundColor(.blue)
-            }
-            .sheet(isPresented: $showCreateCollection) {
-                CreateCollectionView(isPresented: $showCreateCollection, collectionName: $newCollectionName)
-            }
-            
-            Spacer()
         }
     }
 }

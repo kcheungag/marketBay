@@ -9,6 +9,10 @@ import SwiftUI
 
 struct LoginView: View {
     @Environment(\.dismiss)  var dismiss
+    @EnvironmentObject private var appRootManager: AppRootManager
+    @EnvironmentObject var dataAccess: DataAccess
+    
+    var selectedPage : Screens?
     @State private var emailFromUI : String = ""
     @State private var passwordFromUI : String = ""
     @State private var rememberUser : Bool = false
@@ -16,6 +20,7 @@ struct LoginView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10.0){
+            CustomBackFragment()
             Spacer()
             Text("Email")
             TextField("Enter email address", text: self.$emailFromUI)
@@ -60,8 +65,9 @@ struct LoginView: View {
             }
         }
         .padding()
-        .navigationTitle(Text("LOGIN"))
-        .navigationBarTitleDisplayMode(.inline)
+//        .navigationTitle(Text("LOGIN"))
+//        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
     }
     
     func validateLogin(){
@@ -77,6 +83,8 @@ struct LoginView: View {
         if let userData = allUsersData.first(where: { ($0["email"] as? String) == self.emailFromUI }) {
             if userData["password"] as? String ?? "" == self.passwordFromUI {
                 self.errorMessage = ""
+                dataAccess.login(user: User(id: userData["id"] as! Int, name: userData["name"] as! String, email: userData["email"] as! String, password: userData["password"] as! String, phoneNumber: userData["phoneNumber"] as! String))
+                appRootManager.currentRoot = selectedPage ?? .marketplaceView
                 dismiss()
             }
             else{
