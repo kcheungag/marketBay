@@ -11,19 +11,22 @@ class User {
     let id: Int
     var name: String
     var email: String
+    var password: String
     var phoneNumber: String
     var listings: [Listing] //for seller to manage listings
     var favorites: [Listing] //for favorites list
 
-    init(id: Int, name: String, email: String, phoneNumber: String) {
+    init(id: Int, name: String, email: String, password: String,phoneNumber: String) {
         self.id = id
         self.name = name
         self.email = email
+        self.password = password
         self.phoneNumber = phoneNumber
         self.listings = []
         self.favorites = []
         
         // Load user's data from UserDefaults
+        saveUserData()
         loadUserData()
     }
 
@@ -63,6 +66,7 @@ class User {
                "id": id,
                "name": name,
                "email": email,
+               "password": password,
                "phoneNumber": phoneNumber,
                "listings": listings.map { $0.id }, // Save only listing IDs
                "favorites": favorites.map { $0.id } // Save only favorite listing IDs
@@ -89,6 +93,7 @@ class User {
             // Initialize user with loaded data
             self.name = userData["name"] as? String ?? ""
             self.email = userData["email"] as? String ?? ""
+            self.password = userData["password"] as? String ?? ""
             self.phoneNumber = userData["phoneNumber"] as? String ?? ""
             
             // Function to retrieve listings of the user

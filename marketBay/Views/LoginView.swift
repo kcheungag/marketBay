@@ -70,10 +70,19 @@ struct LoginView: View {
             self.errorMessage = "Please enter a valid email address and password"
             return
         }
-        //validate enterred credentials - hardcoded for the interim
-        if self.emailFromUI == "Dayeeta@gmail.com" && self.passwordFromUI == "Dayeeta"{
-            self.errorMessage = ""
-            dismiss()
+        //validate enterred credentials
+        guard let allUsersData = UserDefaults.standard.array(forKey: "allUsersData") as? [[String: Any]] else {
+            return
+        }
+        if let userData = allUsersData.first(where: { ($0["email"] as? String) == self.emailFromUI }) {
+            if userData["password"] as? String ?? "" == self.passwordFromUI {
+                self.errorMessage = ""
+                dismiss()
+            }
+            else{
+                self.errorMessage = "Incorrect Password"
+                return
+            }
         }
         else{
             self.errorMessage = "Invalid Credentials"
