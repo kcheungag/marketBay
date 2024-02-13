@@ -1,21 +1,29 @@
 //
-//  Menu.swift
+//  BackMenuFragment.swift
 //  marketBay
 //
-//  Created by EmJhey PB on 2/8/24.
+//  Created by EmJhey PB on 2/13/24.
 //
 
 import SwiftUI
 
-struct MenuTemplate: View {
+struct BackMenuFragment: View {
     @EnvironmentObject private var appRootManager: AppRootManager
+    @Environment(\.dismiss)  var dismiss
     
     var body: some View {
         HStack {
-            Image(.marketBay)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 125)
+            Button {
+                dismiss()
+            } label:{
+                Image(systemName: "chevron.backward")
+                    .imageScale(.large)
+                    .foregroundColor(.blue)
+                Image(.marketBay)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 125)
+            }
             
             Spacer()
             
@@ -47,4 +55,8 @@ struct MenuTemplate: View {
             }
         }
     }
+}
+
+#Preview {
+    BackMenuFragment()
 }
