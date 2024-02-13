@@ -143,16 +143,32 @@
 		A6B0BE142B7AB3C1006A149A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				99B5E6DA2B75CB0500C0786A /* DashboardView.swift */,
-				99B5E6DE2B75CC9C00C0786A /* LoginView.swift */,
-				99B5E6E02B75CCBB00C0786A /* RegistrationView.swift */,
-				A6B0BE0B2B7AAF7E006A149A /* MarketplaceView.swift */,
-				A6B0BE0D2B7AAFC0006A149A /* ListingView.swift */,
-				99B5E6E92B75D5D700C0786A /* ProfileView.swift */,
-				99B5E6E22B75D28100C0786A /* FavoritesView.swift */,
+				A6B0BE172B7B4B29006A149A /* General */,
+				A6B0BE182B7B4B4A006A149A /* Authentication */,
 				996334062B7AF58200E1EBAA /* Selling */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A6B0BE172B7B4B29006A149A /* General */ = {
+			isa = PBXGroup;
+			children = (
+				99B5E6DA2B75CB0500C0786A /* DashboardView.swift */,
+				A6B0BE0B2B7AAF7E006A149A /* MarketplaceView.swift */,
+				A6B0BE0D2B7AAFC0006A149A /* ListingView.swift */,
+				99B5E6E22B75D28100C0786A /* FavoritesView.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		A6B0BE182B7B4B4A006A149A /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				99B5E6DE2B75CC9C00C0786A /* LoginView.swift */,
+				99B5E6E02B75CCBB00C0786A /* RegistrationView.swift */,
+				99B5E6E92B75D5D700C0786A /* ProfileView.swift */,
+			);
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
