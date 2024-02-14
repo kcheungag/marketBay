@@ -25,7 +25,7 @@ struct MenuTemplate: View {
             Menu {
                 // MARK: Login Menu Item
                 // show if user is not logged in
-                if(!dataAccess.isLoggedIn) {
+                if(dataAccess.loggedInUser == nil) {
                     NavigationLink(destination: LoginView().environmentObject(dataAccess).environmentObject(appRootManager)) {
                         Text("Login")
                         Image(systemName: "lock.fill")
@@ -36,7 +36,7 @@ struct MenuTemplate: View {
                 let rootScreens = appRootManager.rootScreens
                 ForEach(rootScreens.indices) { index in
                     if (appRootManager.currentRoot != rootScreens[index].1) {
-                        if(dataAccess.isLoggedIn) {
+                        if(dataAccess.loggedInUser != nil) {
                             // change Root View
                             Button {
                                 appRootManager.currentRoot = rootScreens[index].1
@@ -55,7 +55,7 @@ struct MenuTemplate: View {
                 }
                 
                 // MARK: Logout Menu Item
-                if(dataAccess.isLoggedIn) {
+                if(dataAccess.loggedInUser != nil) {
                     Button (role:.destructive) {
                         dataAccess.logout()
                         appRootManager.currentRoot = appRootManager.homePage

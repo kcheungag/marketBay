@@ -8,12 +8,7 @@
 import Foundation
 
 final class DataAccess: ObservableObject {
-    @Published var isLoggedIn: Bool
-    
-    init() {
-        self.isLoggedIn = false
-        print("Create DataAccess")
-    }
+    @Published var loggedInUser: User? = nil
     
     // MARK: Log User In
     func login(user: User) {
@@ -21,7 +16,7 @@ final class DataAccess: ObservableObject {
             let encodedData = try JSONEncoder().encode(user)
             
             UserDefaults.standard.set(encodedData, forKey: UserDefaultsEnum.loggedInUser.rawValue)
-            isLoggedIn = true
+            loggedInUser = user
         } catch {
             print("Failed to encode User to Data")
         }
@@ -43,7 +38,7 @@ final class DataAccess: ObservableObject {
     // MARK: Logout
     func logout() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsEnum.loggedInUser.rawValue)
-        isLoggedIn = false
+        loggedInUser = nil
     }
     
     // MARK: Access Posts
