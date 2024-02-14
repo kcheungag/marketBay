@@ -14,6 +14,11 @@
 		9900245B2B7B62BA00F94DF7 /* CustomBackFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9900245A2B7B62BA00F94DF7 /* CustomBackFragment.swift */; };
 		996334032B7AF55300E1EBAA /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996334022B7AF55300E1EBAA /* PostView.swift */; };
 		996334052B7AF57E00E1EBAA /* OrderFulfillmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996334042B7AF57E00E1EBAA /* OrderFulfillmentView.swift */; };
+		99741F0E2B7D4E1300B6311F /* MyPostsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99741F0D2B7D4E1300B6311F /* MyPostsRow.swift */; };
+		99741F102B7D5B0600B6311F /* ConfirmPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99741F0F2B7D5B0600B6311F /* ConfirmPostView.swift */; };
+		99741F122B7D5FFA00B6311F /* TextboxFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99741F112B7D5FFA00B6311F /* TextboxFragment.swift */; };
+		99741F142B7D636400B6311F /* MultilineTextboxFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99741F132B7D636400B6311F /* MultilineTextboxFragment.swift */; };
+		99741F162B7D65CE00B6311F /* PageHeadingFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99741F152B7D65CE00B6311F /* PageHeadingFragment.swift */; };
 		99B5E6CD2B75CAC700C0786A /* marketBayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5E6CC2B75CAC700C0786A /* marketBayApp.swift */; };
 		99B5E6D12B75CACA00C0786A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99B5E6D02B75CACA00C0786A /* Assets.xcassets */; };
 		99B5E6D42B75CACA00C0786A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99B5E6D32B75CACA00C0786A /* Preview Assets.xcassets */; };
@@ -40,6 +45,11 @@
 		9900245A2B7B62BA00F94DF7 /* CustomBackFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackFragment.swift; sourceTree = "<group>"; };
 		996334022B7AF55300E1EBAA /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		996334042B7AF57E00E1EBAA /* OrderFulfillmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFulfillmentView.swift; sourceTree = "<group>"; };
+		99741F0D2B7D4E1300B6311F /* MyPostsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsRow.swift; sourceTree = "<group>"; };
+		99741F0F2B7D5B0600B6311F /* ConfirmPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPostView.swift; sourceTree = "<group>"; };
+		99741F112B7D5FFA00B6311F /* TextboxFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextboxFragment.swift; sourceTree = "<group>"; };
+		99741F132B7D636400B6311F /* MultilineTextboxFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineTextboxFragment.swift; sourceTree = "<group>"; };
+		99741F152B7D65CE00B6311F /* PageHeadingFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageHeadingFragment.swift; sourceTree = "<group>"; };
 		99B5E6C92B75CAC700C0786A /* marketBay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = marketBay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99B5E6CC2B75CAC700C0786A /* marketBayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = marketBayApp.swift; sourceTree = "<group>"; };
 		99B5E6D02B75CACA00C0786A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,8 +85,17 @@
 			children = (
 				99B5E6E72B75D57F00C0786A /* MyPostsView.swift */,
 				A6B0BE152B7AC15F006A149A /* CreatePostView.swift */,
+				99741F0F2B7D5B0600B6311F /* ConfirmPostView.swift */,
 				996334022B7AF55300E1EBAA /* PostView.swift */,
 				996334042B7AF57E00E1EBAA /* OrderFulfillmentView.swift */,
+			);
+			path = Selling;
+			sourceTree = "<group>";
+		};
+		99741F0B2B7D4DE800B6311F /* Selling */ = {
+			isa = PBXGroup;
+			children = (
+				99741F0D2B7D4E1300B6311F /* MyPostsRow.swift */,
 			);
 			path = Selling;
 			sourceTree = "<group>";
@@ -134,6 +153,10 @@
 				99B5E6DC2B75CC3700C0786A /* MenuTemplate.swift */,
 				990024542B7B2F9900F94DF7 /* BackMenuFragment.swift */,
 				9900245A2B7B62BA00F94DF7 /* CustomBackFragment.swift */,
+				99741F0B2B7D4DE800B6311F /* Selling */,
+				99741F152B7D65CE00B6311F /* PageHeadingFragment.swift */,
+				99741F112B7D5FFA00B6311F /* TextboxFragment.swift */,
+				99741F132B7D636400B6311F /* MultilineTextboxFragment.swift */,
 			);
 			path = fragments;
 			sourceTree = "<group>";
@@ -260,16 +283,21 @@
 				99B5E6DB2B75CB0500C0786A /* DashboardView.swift in Sources */,
 				99B5E6E32B75D28100C0786A /* FavoritesView.swift in Sources */,
 				A6B0BE162B7AC15F006A149A /* CreatePostView.swift in Sources */,
+				99741F122B7D5FFA00B6311F /* TextboxFragment.swift in Sources */,
 				99B5E6DF2B75CC9C00C0786A /* LoginView.swift in Sources */,
 				99B5E6E62B75D4BA00C0786A /* Screens.swift in Sources */,
+				99741F162B7D65CE00B6311F /* PageHeadingFragment.swift in Sources */,
 				9900245B2B7B62BA00F94DF7 /* CustomBackFragment.swift in Sources */,
 				99B5E6CD2B75CAC700C0786A /* marketBayApp.swift in Sources */,
+				99741F142B7D636400B6311F /* MultilineTextboxFragment.swift in Sources */,
 				99B5E6E82B75D57F00C0786A /* MyPostsView.swift in Sources */,
 				A6B0BE0E2B7AAFC0006A149A /* ListingView.swift in Sources */,
 				A6B0BE112B7AB341006A149A /* Listing.swift in Sources */,
 				996334032B7AF55300E1EBAA /* PostView.swift in Sources */,
 				996334052B7AF57E00E1EBAA /* OrderFulfillmentView.swift in Sources */,
 				99B5E6E12B75CCBB00C0786A /* RegistrationView.swift in Sources */,
+				99741F0E2B7D4E1300B6311F /* MyPostsRow.swift in Sources */,
+				99741F102B7D5B0600B6311F /* ConfirmPostView.swift in Sources */,
 				990024592B7B515700F94DF7 /* DataAccess.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
