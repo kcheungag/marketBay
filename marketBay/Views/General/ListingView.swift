@@ -12,7 +12,7 @@ struct ListingView: View {
     var body: some View {
         VStack {
             // Menu Bar
-            // MenuTemplate()
+            CustomBackFragment()
             
             ScrollView {
                 VStack {

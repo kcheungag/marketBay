@@ -14,7 +14,7 @@ struct DashboardView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                MenuTemplate().environmentObject(dataAccess)
+                //MenuTemplate().environmentObject(dataAccess)
                 // Back Button
                 //            HStack {
                 //                Button(action: {
