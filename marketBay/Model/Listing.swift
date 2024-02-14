@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Listing: Codable {
+struct Listing: Codable, Identifiable {
     let id: Int
     let title: String
     let description: String

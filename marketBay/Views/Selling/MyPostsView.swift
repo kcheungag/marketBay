@@ -13,13 +13,20 @@ struct MyPostsView: View {
     var body: some View {
         NavigationStack() {
             MenuTemplate().environmentObject(dataAccess)
-            Text("My Posts")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding(.top)
+            PageHeadingFragment(pageTitle: "My Posts")
+            
             VStack {
-                Spacer()
-                NavigationLink(destination: CreatePostView()) {
+                List {
+                    ForEach(dataAccess.loggedInUser!.listings) { listing in
+                        NavigationLink{
+                            PostView(listing: listing)
+                        }label:{
+                            MyPostsRow(listing: listing)
+                        }
+                    }
+                }
+
+                NavigationLink(destination: CreatePostView().environmentObject(dataAccess)) {
                     Image(systemName: "plus.circle.fill")
                         .resizable()
                         .scaledToFit()

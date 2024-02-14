@@ -56,7 +56,7 @@ struct MarketplaceView: View {
         }
         .onAppear() {
             loadDummyData()
-            dataAccess.isLoggedIn = dataAccess.getLoggedInUser() != nil
+            dataAccess.loggedInUser = dataAccess.getLoggedInUser()
         }
     }
     

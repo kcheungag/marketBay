@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct PostView: View {
+    var listing: Listing
+    
     var body: some View {
         BackMenuFragment()
         VStack {
             VStack {
-                Text("Test")
+                Text(listing.title)
                 Spacer()
             }
         }
@@ -22,5 +24,5 @@ struct PostView: View {
 }
 
 #Preview {
-    PostView()
+    PostView(listing: Listing(id: 1, title: "Unlock! A Noside Story", description: "Secret Adventures: Part 1", category: "Toys", price: 25.0, seller: User(id: 1, name: "MJ", email: "mb", password: "mb", phoneNumber: "123"), email: "users[0].email", phoneNumber: "users[0].phoneNumber"))
 }
