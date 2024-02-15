@@ -16,7 +16,7 @@ struct Listing: Codable, Identifiable {
     let seller: User
     let email: String
     let phoneNumber: String
-    let status: PostStatus
+    var status: PostStatus
     
     // Initializer
     init(id: Int, title: String, description: String, category: Category, price: Double, seller: User, email: String, phoneNumber: String, status: PostStatus) {
