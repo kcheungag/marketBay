@@ -10,6 +10,7 @@ import SwiftUI
 
 struct BackMenuFragment: View {
     @EnvironmentObject private var appRootManager: AppRootManager
+    @EnvironmentObject var dataAccess: DataAccess
     @Environment(\.dismiss)  var dismiss
     
     var body: some View {
@@ -48,7 +49,8 @@ struct BackMenuFragment: View {
                 
                 // MARK: Logout Menu Item
                 Button (role:.destructive) {
-                    appRootManager.currentRoot = .dashboardView
+                    dataAccess.logout()
+                    appRootManager.currentRoot = appRootManager.homePage
                 } label:{
                     Text("Logout")
                     Image(systemName: "power")
