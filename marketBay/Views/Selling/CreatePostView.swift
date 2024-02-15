@@ -8,42 +8,85 @@
 import SwiftUI
 
 struct CreatePostView: View {
+    @Environment(\.dismiss)  var dismiss
     @EnvironmentObject var dataAccess: DataAccess
     
     // MARK: Input Variables
     @State private var titleIn: String = ""
     @State private var descriptionIn: String = ""
-    @State private var categoryIn: String = ""
+    @State private var categoryIn: Category = .auto
     @State private var priceIn: String = ""
     
     // MARK: Output Variables
+    @State private var showAlert: Bool = false
+    @State private var errorMessage = ""
     
     var body: some View {
         VStack {
-//            BackMenuFragment()
+            BackMenuFragment().environmentObject(dataAccess)
             PageHeadingFragment(pageTitle: "New Post")
         
             // MARK: Post Details
-//                let id: Int
-            TextboxFragment(fieldName: "Title", placeholder: "Title", binding: $titleIn)
-            
-            Text("Product Details")
-                .font(.title2)
-                .fontWeight(.bold)
-                .padding([.top,.bottom], 5)
+            ScrollView {
+                TextboxFragment(fieldName: "Title", placeholder: "Title", binding: $titleIn, isMandatory: true)
+                
+                // MARK: Product Details
+                Text("Product Details")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .padding([.top,.bottom], 5)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                // MARK: Category
+                HStack {
+                    Text("*")
+                        .fontWeight(.bold)
+                        .foregroundStyle(.red)
+                    Text("Category")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                Picker("Category", selection: $categoryIn) {
+                    ForEach(Category.allCases.filter({$0 != .all}), id: \.self) { category in
+                        Text(category.rawValue).tag(category)
+                    }
+                }
+                .padding(.bottom, 5)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            TextboxFragment(fieldName: "Category", placeholder: "Category", binding: $categoryIn)
-            TextboxFragment(fieldName: "Price", placeholder: "Price", binding: $priceIn, keyboardType: .decimalPad)
-            MultilineTextboxFragment(fieldName: "Description", placeholder: "Description", binding: $descriptionIn)
+                
+                TextboxFragment(fieldName: "Price", placeholder: "Price", binding: $priceIn, keyboardType: .decimalPad, isMandatory: true)
+                MultilineTextboxFragment(fieldName: "Description", placeholder: "Description", binding: $descriptionIn)
+            }
             Spacer()
             
             Button {
-                ConfirmPostView(listing: Listing(id: 1, title: "Unlock! A Noside Story", description: "Secret Adventures: Part 1", category: .toys, price: 25.0, seller: User(id: 1, name: "MJ", email: "mb", password: "mb", phoneNumber: "123"), email: "users[0].email", phoneNumber: "users[0].phoneNumber"))
+                // MARK: Validate form
+                errorMessage = ""
+                
+                errorMessage += titleIn.isEmpty ? "\n• Title" : ""
+                errorMessage += priceIn.isEmpty || Double(priceIn) == nil ? "\n• Price" : ""
+                
+                // MARK: Success
+                if(!errorMessage.isEmpty) {
+                    showAlert = true
+                } else {
+                    let currentUser = dataAccess.loggedInUser!
+                    let currentListing = Listing(id: 0, title: titleIn, description: descriptionIn, category: categoryIn, price: Double(priceIn) ?? 0, seller: currentUser, email: currentUser.email, phoneNumber: currentUser.phoneNumber, status: .available)
+                    
+                    dataAccess.savePosts(post: currentListing)
+                    dismiss()
+                }
             }label: {
-                Text("View Sample Post")
+                Text("P O S T")
                     .frame(maxWidth: .infinity)
             }
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Invalid Inputs"),
+                    message: Text(errorMessage)
+                )
+            }
             .buttonStyle(.borderedProminent)
+            .tint(.green)
         }
         .padding()
         .navigationBarBackButtonHidden(true)
@@ -52,7 +95,7 @@ struct CreatePostView: View {
     func resetFields() {
         titleIn = ""
         descriptionIn = ""
-        categoryIn = ""
+        categoryIn = .auto
         priceIn = ""
     }
 }

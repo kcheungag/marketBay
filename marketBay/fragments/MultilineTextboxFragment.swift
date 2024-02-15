@@ -23,6 +23,7 @@ struct MultilineTextboxFragment: View {
             .lineLimit(lineLimit, reservesSpace: reserveSpace)
             .padding(.bottom, bottomPadding)
             .keyboardType(keyboardType)
+            .textFieldStyle(.roundedBorder)
     }
 }
 
