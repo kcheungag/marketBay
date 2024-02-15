@@ -12,6 +12,7 @@ final class DataAccess: ObservableObject {
     @Published var loggedInUserPostings: [Listing] = []
     @Published var loggedInUserFavorites: [Listing] = []
     @Published var loggedInUserCollections: [Collection] = []
+    @Published var rememberUser: User? = nil
 
     let userFavoritesKeyPrefix = "LoggedInUserFavorites_"
     let userCollectionsKeyPrefix = "LoggedInUserCollections_"
@@ -243,4 +244,31 @@ final class DataAccess: ObservableObject {
             }
         }
 
+    func rememberUser(user: User) {
+        do {
+            let encodedData = try JSONEncoder().encode(user)
+            UserDefaults.standard.set(encodedData, forKey: UserDefaultsEnum.rememberUser.rawValue)
+            rememberUser = user
+        }
+        catch {
+            print("Failed to convert Data to User")
+        }
+    }
+    
+    func getRememberUser() -> User? {
+        if let savedData = UserDefaults.standard.object(forKey: UserDefaultsEnum.rememberUser.rawValue) as? Data {
+            do{
+                let currentUser = try JSONDecoder().decode(User.self, from: savedData)
+                return currentUser
+            } catch {
+                print("Failed to convert Data to User")
+            }
+        }
+        return nil
+    }
+    
+    func forgetUser() {
+        UserDefaults.standard.removeObject(forKey: UserDefaultsEnum.rememberUser.rawValue)
+        rememberUser = nil
+    }
 }
