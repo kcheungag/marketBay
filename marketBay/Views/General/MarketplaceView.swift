@@ -45,10 +45,9 @@ struct MarketplaceView: View {
                 // Grid-like Display of Items
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
-                        ForEach(listings) { listing in
-                            // Display each item in a grid
-                            ItemView(listing: listing)
-                        }
+                        ForEach(listings.filter { $0.category == selectedCategory || selectedCategory == .all }) { listing in
+                                ItemView(listing: listing)
+                            }
                     }
                     .padding(.horizontal)
                 }
@@ -62,24 +61,41 @@ struct MarketplaceView: View {
     }
     
     func loadDummyData() {
+        
+        // Remove existing posts from UserDefaults
+        // UserDefaults.standard.removeObject(forKey: UserDefaultsEnum.posts.rawValue)
+        
+        // DEBUG:
         print("Loading dummy data...")
 
         let posts = dataAccess.getPosts(idFilter: nil)
-        
+        // DEBUG:
+        print("Retrieved listings from UserDefaults: \(posts)")
+
         if(posts.isEmpty) {
             // MARK: Dummy Users
             let users = [
-                User(id: 1, name: "MJ", email: "mb", password: "mb", phoneNumber: "123"),
-                User(id: 2, name: "Dayeeta", email: "dg", password: "dg", phoneNumber: "456"),
-                User(id: 3, name: "Gordon", email: "kc", password: "kc", phoneNumber: "789"),
+                User(id: 1, name: "MJ", email: "mb@gmail.com", password: "mb", phoneNumber: "4371234123"),
+                User(id: 2, name: "Dayeeta", email: "dg@gmail.com", password: "dg", phoneNumber: "4371233456"),
+                User(id: 3, name: "Gordon", email: "kc@gmail.com", password: "kc", phoneNumber: "4371233789"),
             ]
             
             // MARK: Dummy Seller Posts
             let listings = [
-                Listing(id: 1, title: "Unlock! A Noside Story", description: "Secret Adventures: Part 1", category: .toys, price: 25.0, seller: users[0], email: users[0].email, phoneNumber: users[0].phoneNumber, status: .available),
-                Listing(id: 2, title: "Unlock! Tombstone Express", description: "Secret Adventures: Part 2", category: .toys, price: 25.0, seller: users[1], email: users[1].email, phoneNumber: users[1].phoneNumber, status: .available),
-                Listing(id: 3, title: "Unlock! The Adventures of Oz", description: "Secret Adventures: Part 3", category: .toys, price: 25.0, seller: users[2], email: users[2].email, phoneNumber: users[2].phoneNumber, status: .available),
-            ]
+                Listing(id: 1, title: "Laptop", description: "Brand new laptop for sale.", category: .electronics, price: 99.99, seller: users[0], email: users[0].email, phoneNumber: users[0].phoneNumber, status: .available),
+                Listing(id: 2, title: "Garden Chair", description: "Comfortable garden chair perfect for relaxing outdoors.", category: .homeAndGarden, price: 49.99, seller: users[0], email: users[0].email, phoneNumber: users[0].phoneNumber, status: .available),
+                Listing(id: 3, title: "Men's Shirt", description: "Stylish men's shirt available in various sizes and colors.", category: .mensClothing, price: 29.99, seller: users[0], email: users[0].email, phoneNumber: users[0].phoneNumber, status: .available),
+                Listing(id: 4, title: "Toy Car", description: "Fun toy car for kids to play with.", category: .toys, price: 19.99, seller: users[0], email: users[0].email, phoneNumber: users[0].phoneNumber, status: .available),
+                Listing(id: 5, title: "Smartphone", description: "High-performance smartphone with advanced features.", category: .electronics, price: 149.99, seller: users[1], email: users[1].email, phoneNumber: users[1].phoneNumber, status: .available),
+                Listing(id: 6, title: "Sofa Set", description: "Elegant sofa set perfect for your living room.", category: .furniture, price: 199.99, seller: users[1], email: users[1].email, phoneNumber: users[1].phoneNumber, status: .available),
+                Listing(id: 7, title: "Outdoor Table", description: "Durable outdoor table suitable for your garden or patio.", category: .homeAndGarden, price: 79.99, seller: users[1], email: users[1].email, phoneNumber: users[1].phoneNumber, status: .available),
+                Listing(id: 8, title: "Camera", description: "Professional-grade camera for capturing stunning photos and videos.", category: .electronics, price: 249.99, seller: users[1], email: users[1].email, phoneNumber: users[1].phoneNumber, status: .available),
+                Listing(id: 9, title: "Action Figure", description: "Collectible action figure for toy enthusiasts.", category: .toys, price: 9.99, seller: users[2], email: users[2].email, phoneNumber: users[2].phoneNumber, status: .available),
+                Listing(id: 10, title: "Women's Dress", description: "Elegant dress for various occasions, available in different sizes.", category: .womensClothing, price: 39.99, seller: users[2], email: users[2].email, phoneNumber: users[2].phoneNumber, status: .available),
+               Listing(id: 11, title: "Unlock! A Noside Story", description: "Secret Adventures: Part 1", category: .toys, price: 25.0, seller: users[0], email: users[0].email, phoneNumber: users[0].phoneNumber, status: .available),
+               Listing(id: 12, title: "Unlock! Tombstone Express", description: "Secret Adventures: Part 2", category: .toys, price: 25.0, seller: users[1], email: users[1].email, phoneNumber: users[1].phoneNumber, status: .available),
+               Listing(id: 13, title: "Unlock! The Adventures of Oz", description: "Secret Adventures: Part 3", category: .toys, price: 25.0, seller: users[2], email: users[2].email, phoneNumber: users[2].phoneNumber, status: .available),
+                   ]
             
             // Assign listings to the listings array
             self.listings = listings
@@ -93,6 +109,9 @@ struct MarketplaceView: View {
                             user.addListing(listing)
                         }
                     }
+        }else {
+            // If there are existing posts retrieved from UserDefaults, assign them to self.listings
+            self.listings = posts
         }
     }
 
@@ -102,22 +121,26 @@ struct ItemView: View {
     let listing: Listing // Add a property to hold the listing information
 
     var body: some View {
-        VStack {
-            // Image and Title
-            Image(systemName: "photo") // Placeholder image
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 150, height: 150)
-            Text(listing.title)
-                .font(.headline)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-            
-            // Price
-            Text("$\(String(format:"%.2f", listing.price))")
-                .font(.subheadline)
-                .foregroundColor(.green)
-                .padding(.vertical, 5)
+        NavigationLink(destination: ListingView(listing: listing)) {
+            VStack {
+                // Image and Title
+                Image(systemName: "photo") // Placeholder image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 150, height: 150)
+                Text(listing.title)
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                
+                // Price
+                Text("$\(String(format:"%.2f", listing.price))")
+                    .font(.subheadline)
+                    .foregroundColor(.green)
+                    .padding(.vertical, 5)
+            }
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(10)
         }
         .background(Color.gray.opacity(0.1))
         .cornerRadius(10)

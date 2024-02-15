@@ -53,6 +53,7 @@ final class DataAccess: ObservableObject {
             } catch {
                 print("Failed to convert Data to Listing")
             }
+
         }
         
         return []
@@ -73,4 +74,26 @@ final class DataAccess: ObservableObject {
             print("Failed to encode Listings to Data")
         }
     }
+    
+    // MARK: Toggle Favorite Listing
+       func toggleFavorite(for user: User, listing: Listing) {
+           if let index = user.favorites.firstIndex(where: { $0.id == listing.id }) {
+                      user.favorites.remove(at: index)
+                  } else {
+               user.favorites.append(listing)
+           }
+           saveUser(user)
+       }
+    
+    // MARK: Save User
+       private func saveUser(_ user: User) {
+           do {
+               let encodedData = try JSONEncoder().encode(user)
+               UserDefaults.standard.set(encodedData, forKey: UserDefaultsEnum.loggedInUser.rawValue)
+               loggedInUser = user
+           } catch {
+               print("Failed to encode User to Data")
+           }
+       }
+
 }
