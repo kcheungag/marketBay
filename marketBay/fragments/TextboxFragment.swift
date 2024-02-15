@@ -13,13 +13,22 @@ struct TextboxFragment: View {
     @State var binding: Binding<String>
     var bottomPadding: CGFloat = 5
     var keyboardType: UIKeyboardType = .default
+    var isMandatory: Bool = false
     
     var body: some View {
-        Text(fieldName)
-            .frame(maxWidth: .infinity, alignment: .leading)
+        HStack {
+            if(isMandatory) {
+                Text("*")
+                    .fontWeight(.bold)
+                    .foregroundStyle(.red)
+            }
+            Text(fieldName)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
         TextField(placeholder, text: binding)
             .padding(.bottom, bottomPadding)
             .keyboardType(keyboardType)
+            .textFieldStyle(.roundedBorder)
     }
 }
 

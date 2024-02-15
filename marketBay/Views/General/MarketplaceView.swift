@@ -19,7 +19,7 @@ struct MarketplaceView: View {
         NavigationStack {
             VStack {
                 // Menu Bar （Error)
-                //MenuTemplate().environmentObject(dataAccess)
+                MenuTemplate().environmentObject(dataAccess)
                 
                 // Horizontal Category Selector
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -57,7 +57,7 @@ struct MarketplaceView: View {
         }
         .onAppear() {
             loadDummyData()
-            //dataAccess.loggedInUser = dataAccess.getLoggedInUser()
+            dataAccess.loggedInUser = dataAccess.getLoggedInUser()
         }
     }
     
@@ -76,11 +76,10 @@ struct MarketplaceView: View {
             
             // MARK: Dummy Seller Posts
             let listings = [
-                       Listing(id: 1, title: "Unlock! A Noside Story", description: "Secret Adventures: Part 1", category: .toys, price: 25.0, seller: users[0], email: users[0].email, phoneNumber: users[0].phoneNumber),
-                       Listing(id: 2, title: "Unlock! Tombstone Express", description: "Secret Adventures: Part 2", category: .toys, price: 25.0, seller: users[1], email: users[1].email, phoneNumber: users[1].phoneNumber),
-                       Listing(id: 3, title: "Unlock! The Adventures of Oz", description: "Secret Adventures: Part 3", category: .toys, price: 25.0, seller: users[2], email: users[2].email, phoneNumber: users[2].phoneNumber),
-                       // Add more sample listings here
-                   ]
+                Listing(id: 1, title: "Unlock! A Noside Story", description: "Secret Adventures: Part 1", category: .toys, price: 25.0, seller: users[0], email: users[0].email, phoneNumber: users[0].phoneNumber, status: .available),
+                Listing(id: 2, title: "Unlock! Tombstone Express", description: "Secret Adventures: Part 2", category: .toys, price: 25.0, seller: users[1], email: users[1].email, phoneNumber: users[1].phoneNumber, status: .available),
+                Listing(id: 3, title: "Unlock! The Adventures of Oz", description: "Secret Adventures: Part 3", category: .toys, price: 25.0, seller: users[2], email: users[2].email, phoneNumber: users[2].phoneNumber, status: .available),
+            ]
             
             // Assign listings to the listings array
             self.listings = listings

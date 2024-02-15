@@ -12,10 +12,10 @@
 		990024572B7B4C7E00F94DF7 /* UserDefaultsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990024562B7B4C7E00F94DF7 /* UserDefaultsEnum.swift */; };
 		990024592B7B515700F94DF7 /* DataAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990024582B7B515700F94DF7 /* DataAccess.swift */; };
 		9900245B2B7B62BA00F94DF7 /* CustomBackFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9900245A2B7B62BA00F94DF7 /* CustomBackFragment.swift */; };
+		9913758A2B7DD12D0080D058 /* PostStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991375892B7DD12D0080D058 /* PostStatus.swift */; };
 		996334032B7AF55300E1EBAA /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996334022B7AF55300E1EBAA /* PostView.swift */; };
 		996334052B7AF57E00E1EBAA /* OrderFulfillmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996334042B7AF57E00E1EBAA /* OrderFulfillmentView.swift */; };
 		99741F0E2B7D4E1300B6311F /* MyPostsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99741F0D2B7D4E1300B6311F /* MyPostsRow.swift */; };
-		99741F102B7D5B0600B6311F /* ConfirmPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99741F0F2B7D5B0600B6311F /* ConfirmPostView.swift */; };
 		99741F122B7D5FFA00B6311F /* TextboxFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99741F112B7D5FFA00B6311F /* TextboxFragment.swift */; };
 		99741F142B7D636400B6311F /* MultilineTextboxFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99741F132B7D636400B6311F /* MultilineTextboxFragment.swift */; };
 		99741F162B7D65CE00B6311F /* PageHeadingFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99741F152B7D65CE00B6311F /* PageHeadingFragment.swift */; };
@@ -45,10 +45,10 @@
 		990024562B7B4C7E00F94DF7 /* UserDefaultsEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsEnum.swift; sourceTree = "<group>"; };
 		990024582B7B515700F94DF7 /* DataAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAccess.swift; sourceTree = "<group>"; };
 		9900245A2B7B62BA00F94DF7 /* CustomBackFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackFragment.swift; sourceTree = "<group>"; };
+		991375892B7DD12D0080D058 /* PostStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStatus.swift; sourceTree = "<group>"; };
 		996334022B7AF55300E1EBAA /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		996334042B7AF57E00E1EBAA /* OrderFulfillmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFulfillmentView.swift; sourceTree = "<group>"; };
 		99741F0D2B7D4E1300B6311F /* MyPostsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsRow.swift; sourceTree = "<group>"; };
-		99741F0F2B7D5B0600B6311F /* ConfirmPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPostView.swift; sourceTree = "<group>"; };
 		99741F112B7D5FFA00B6311F /* TextboxFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextboxFragment.swift; sourceTree = "<group>"; };
 		99741F132B7D636400B6311F /* MultilineTextboxFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineTextboxFragment.swift; sourceTree = "<group>"; };
 		99741F152B7D65CE00B6311F /* PageHeadingFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageHeadingFragment.swift; sourceTree = "<group>"; };
@@ -89,7 +89,6 @@
 			children = (
 				99B5E6E72B75D57F00C0786A /* MyPostsView.swift */,
 				A6B0BE152B7AC15F006A149A /* CreatePostView.swift */,
-				99741F0F2B7D5B0600B6311F /* ConfirmPostView.swift */,
 				996334022B7AF55300E1EBAA /* PostView.swift */,
 				996334042B7AF57E00E1EBAA /* OrderFulfillmentView.swift */,
 			);
@@ -148,6 +147,7 @@
 				99B5E6E52B75D4BA00C0786A /* Screens.swift */,
 				990024562B7B4C7E00F94DF7 /* UserDefaultsEnum.swift */,
 				A6B0BE612B7D87D8006A149A /* Categories.swift */,
+				991375892B7DD12D0080D058 /* PostStatus.swift */,
 			);
 			path = enums;
 			sourceTree = "<group>";
@@ -292,6 +292,7 @@
 				A6B0BE162B7AC15F006A149A /* CreatePostView.swift in Sources */,
 				99741F122B7D5FFA00B6311F /* TextboxFragment.swift in Sources */,
 				99B5E6DF2B75CC9C00C0786A /* LoginView.swift in Sources */,
+				9913758A2B7DD12D0080D058 /* PostStatus.swift in Sources */,
 				99B5E6E62B75D4BA00C0786A /* Screens.swift in Sources */,
 				99741F162B7D65CE00B6311F /* PageHeadingFragment.swift in Sources */,
 				9900245B2B7B62BA00F94DF7 /* CustomBackFragment.swift in Sources */,
@@ -305,7 +306,6 @@
 				A6B0BE602B7D811D006A149A /* SampleData.swift in Sources */,
 				99B5E6E12B75CCBB00C0786A /* RegistrationView.swift in Sources */,
 				99741F0E2B7D4E1300B6311F /* MyPostsRow.swift in Sources */,
-				99741F102B7D5B0600B6311F /* ConfirmPostView.swift in Sources */,
 				990024592B7B515700F94DF7 /* DataAccess.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
