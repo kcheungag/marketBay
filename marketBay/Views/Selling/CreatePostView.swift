@@ -22,22 +22,23 @@ struct CreatePostView: View {
     @State private var errorMessage = ""
     
     var body: some View {
+        BackMenuFragment().environmentObject(dataAccess)
         VStack {
-            BackMenuFragment().environmentObject(dataAccess)
             PageHeadingFragment(pageTitle: "New Post")
         
             // MARK: Post Details
             ScrollView {
+                // MARK: Product Details
+                // Title
                 TextboxFragment(fieldName: "Title", placeholder: "Title", binding: $titleIn, isMandatory: true)
                 
-                // MARK: Product Details
                 Text("Product Details")
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding([.top,.bottom], 5)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                // MARK: Category
+                // Category
                 HStack {
                     Text("*")
                         .fontWeight(.bold)
@@ -53,8 +54,17 @@ struct CreatePostView: View {
                 .padding(.bottom, 5)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
+                // Price
                 TextboxFragment(fieldName: "Price", placeholder: "Price", binding: $priceIn, keyboardType: .decimalPad, isMandatory: true)
+                
+                // Description
                 MultilineTextboxFragment(fieldName: "Description", placeholder: "Description", binding: $descriptionIn)
+                
+                // Placeholder image
+                Image(systemName: "photo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 150, height: 150)
             }
             Spacer()
             

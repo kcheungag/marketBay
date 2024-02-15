@@ -175,6 +175,6 @@ struct ListingView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ListingView(listing: Listing(id: 1, title: "Sample Listing", description: "This is a sample listing description.", category: .electronics, price: 99.99, seller: User(id: 1, name: "John Doe", email: "john@example.com", password: "123", phoneNumber: "123456789"), email: "john@example.com", phoneNumber: "123456789"))
+        ListingView(listing: Listing(id: 1, title: "Sample Listing", description: "This is a sample listing description.", category: .electronics, price: 99.99, seller: User(id: 1, name: "John Doe", email: "john@example.com", password: "123", phoneNumber: "123456789"), email: "john@example.com", phoneNumber: "123456789", status: .available))
     }
 }
