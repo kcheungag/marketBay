@@ -20,8 +20,7 @@ struct ProfileView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20.0) {
-            // CustomBackFragment aligned to leading edge with slight offset
-            CustomBackFragment()
+            MenuTemplate()
                 .alignmentGuide(.leading) { _ in -10 }
             Text("")
                 .frame(maxWidth: .infinity)
