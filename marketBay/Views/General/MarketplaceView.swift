@@ -63,7 +63,7 @@ struct MarketplaceView: View {
     func loadDummyData() {
         
         // Remove existing posts from UserDefaults
-        // UserDefaults.standard.removeObject(forKey: UserDefaultsEnum.posts.rawValue)
+         UserDefaults.standard.removeObject(forKey: UserDefaultsEnum.posts.rawValue)
         
         // DEBUG:
         print("Loading dummy data...")
@@ -75,9 +75,9 @@ struct MarketplaceView: View {
         if(posts.isEmpty) {
             // MARK: Dummy Users
             let users = [
-                User(id: 1, name: "MJ", email: "mb@gmail.com", password: "mb", phoneNumber: "4371234123"),
-                User(id: 2, name: "Dayeeta", email: "dg@gmail.com", password: "dg", phoneNumber: "4371233456"),
-                User(id: 3, name: "Gordon", email: "kc@gmail.com", password: "kc", phoneNumber: "4371233789"),
+                User(id: 1, name: "MJ", email: "mb@gmail.com", password: "mbmbmb", phoneNumber: "4371234123"),
+                User(id: 2, name: "Dayeeta", email: "dg@gmail.com", password: "dgdgdg", phoneNumber: "4371233456"),
+                User(id: 3, name: "Gordon", email: "kc@gmail.com", password: "kckckc", phoneNumber: "4371233789"),
             ]
             
             // MARK: Dummy Seller Posts
