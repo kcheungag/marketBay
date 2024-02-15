@@ -10,12 +10,14 @@ import SwiftUI
 
 struct ListingView: View {
     var body: some View {
-        VStack {
-            // Menu Bar
+        ZStack(alignment: .topLeading) {
+            // CustomBackFragment aligned to leading edge with slight offset
             CustomBackFragment()
-            
+                .alignmentGuide(.leading) { _ in -10 }
             ScrollView {
                 VStack {
+                    Spacer()
+                    Spacer()
                     // Image
                     Image(systemName: "photo") // Placeholder image
                         .resizable()
