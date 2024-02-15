@@ -14,6 +14,8 @@ final class DataAccess: ObservableObject {
     @Published var loggedInUserCollections: [Collection] = []
 
     let userFavoritesKeyPrefix = "LoggedInUserFavorites_"
+    let userCollectionsKeyPrefix = "LoggedInUserCollections_"
+
     
     var listingsDictionary: [Int: Listing] = [:] // Mapping of listing ID to Listing object
 
@@ -25,6 +27,7 @@ final class DataAccess: ObservableObject {
             loggedInUser = user
             loggedInUserPostings = getPosts(idFilter: user.id).sorted(by: { $0.id > $1.id })
             loggedInUserFavorites = getLoggedInUserFavorites(for: user) // Retrieve favorites for the logged-in user
+            loggedInUserCollections = getLoggedInUserCollections(for: user) // Retrieve collections for the logged-in user
             // Debug print to check if user is logged in and data is retrieved properly
                     print("User logged in: \(user)")
                     print("User's postings: \(loggedInUserPostings)")
@@ -152,6 +155,59 @@ final class DataAccess: ObservableObject {
            mutableListing.favoriteCount -= 1
            listingsDictionary[listing.id] = mutableListing
        }
+    
+    // Function to create a new collection
+    func createCollection(name: String) {
+        guard let currentUser = self.loggedInUser else {
+            print("Error: No logged-in user found")
+            return
+        }
+        
+        // Create a new collection
+        let collection = Collection(id: UUID(), name: name, listings: [], ownerID: currentUser.id)
+        
+        // Add the collection to the user's collections
+        currentUser.addCollection(collection)
+        
+        // Save user data immediately after creating the collection
+        currentUser.saveUserData()
+        
+        // Update loggedInUserCollections
+        loggedInUserCollections = currentUser.collections
+    }
+    
+    // Function to add a listing to a collection
+    func addToCollection(listing: Listing, collection: Collection) {
+        if let index = loggedInUserCollections.firstIndex(where: { $0.id == collection.id }) {
+            loggedInUserCollections[index].listings.append(listing)
+            // Save the updated collections to UserDefaults
+                    saveLoggedInUserCollections(for: loggedInUser!)
+        }
+    }
+    
+    // Retrieve loggedInUserCollections for a specific user
+       func getLoggedInUserCollections(for user: User) -> [Collection] {
+           if let savedData = UserDefaults.standard.object(forKey: "\(userCollectionsKeyPrefix)\(user.id)") as? Data {
+               do {
+                   let collections = try JSONDecoder().decode([Collection].self, from: savedData)
+                   return collections
+               } catch {
+                   print("Failed to decode loggedInUserCollections for user \(user.id)")
+               }
+           }
+           return []
+       }
+
+    // Function to save loggedInUserCollections for a specific user
+        func saveLoggedInUserCollections(for user: User) {
+            do {
+                let encodedData = try JSONEncoder().encode(loggedInUserCollections)
+                UserDefaults.standard.set(encodedData, forKey: "\(userCollectionsKeyPrefix)\(user.id)")
+            } catch {
+                print("Failed to encode loggedInUserCollections to Data")
+            }
+        }
+
 
     // MARK: Save User
     func saveUser(_ user: User) {
