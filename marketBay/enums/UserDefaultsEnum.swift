@@ -10,4 +10,5 @@ import Foundation
 enum UserDefaultsEnum: String {
     case posts = "posts"
     case loggedInUser = "loggedInUser"
+    case rememberUser = "rememberUser"
 }

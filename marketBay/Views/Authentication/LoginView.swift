@@ -12,6 +12,7 @@ struct LoginView: View {
     @EnvironmentObject private var appRootManager: AppRootManager
     @EnvironmentObject var dataAccess: DataAccess
     
+    @State private var rememberUserDetails: User?
     var selectedPage : Screens?
     @State private var emailFromUI : String = ""
     @State private var passwordFromUI : String = ""
@@ -68,6 +69,11 @@ struct LoginView: View {
 //        .navigationTitle(Text("LOGIN"))
 //        .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
+        .onAppear(){
+            rememberUserDetails = dataAccess.getRememberUser()
+            emailFromUI = rememberUserDetails?.email ?? ""
+            passwordFromUI = rememberUserDetails?.password ?? ""
+        }
     }
     
     func validateLogin(){
@@ -84,6 +90,12 @@ struct LoginView: View {
             if userData["password"] as? String ?? "" == self.passwordFromUI {
                 self.errorMessage = ""
                 dataAccess.login(user: User(id: userData["id"] as! Int, name: userData["name"] as! String, email: userData["email"] as! String, password: userData["password"] as! String, phoneNumber: userData["phoneNumber"] as! String))
+                if self.rememberUser{
+                    dataAccess.rememberUser(user: User(id: userData["id"] as! Int, name: userData["name"] as! String, email: userData["email"] as! String, password: userData["password"] as! String, phoneNumber: userData["phoneNumber"] as! String))
+                }
+                else{
+                    dataAccess.forgetUser()
+                }
                 appRootManager.currentRoot = selectedPage ?? .marketplaceView
                 dismiss()
             }
