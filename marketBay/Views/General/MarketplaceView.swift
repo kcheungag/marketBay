@@ -121,25 +121,27 @@ struct ItemView: View {
     let listing: Listing // Add a property to hold the listing information
 
     var body: some View {
-        VStack {
-            // Image and Title
-            Image(systemName: "photo") // Placeholder image
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 150, height: 150)
-            Text(listing.title)
-                .font(.headline)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-            
-            // Price
-            Text("$\(String(format:"%.2f", listing.price))")
-                .font(.subheadline)
-                .foregroundColor(.green)
-                .padding(.vertical, 5)
+        NavigationLink(destination: ListingView(listing: listing)) {
+            VStack {
+                // Image and Title
+                Image(systemName: "photo") // Placeholder image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 150, height: 150)
+                Text(listing.title)
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                
+                // Price
+                Text("$\(String(format:"%.2f", listing.price))")
+                    .font(.subheadline)
+                    .foregroundColor(.green)
+                    .padding(.vertical, 5)
+            }
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(10)
         }
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(10)
     }
 }
 

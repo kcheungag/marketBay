@@ -9,6 +9,12 @@
 import SwiftUI
 
 struct ListingView: View {
+    @EnvironmentObject var dataAccess: DataAccess
+    @State private var isFavorite: Bool = false
+    @State private var showAlert = false
+    @State var listing: Listing
+    @State private var showingContactOptions = false
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
             // CustomBackFragment aligned to leading edge with slight offset
@@ -28,11 +34,17 @@ struct ListingView: View {
                     // Add your implementation here
                     
                     // Title
-                    Text("Listing Title")
+                    Text(listing.title) // Display actual listing title
                         .font(.title)
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
                         .padding(.vertical)
+                    
+                    // Description
+                    Text(listing.description) // Display actual listing description
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
                     
                     // Seller Info
                     HStack {
@@ -42,7 +54,7 @@ struct ListingView: View {
                             .frame(width: 50, height: 50)
                         
                         VStack(alignment: .leading) {
-                            Text("Seller Name") // Placeholder seller name
+                            Text(listing.seller.name) // Display actual seller name
                                 .font(.headline)
                             // Add more seller info (e.g., rating, location) if applicable
                         }
@@ -50,41 +62,119 @@ struct ListingView: View {
                         Spacer()
                         
                         Button(action: {
-                            // Action to initiate message with seller
+                            showingContactOptions = true
                         }) {
                             Text("Message")
+                        }
+                        .sheet(isPresented: $showingContactOptions) {
+                            ContactOptionsView(listing: listing)
+                        }
+                        // Add to Favorites Button
+                        if let currentUser = dataAccess.loggedInUser {
+                            Button(action: {
+                                if currentUser.favorites.contains(where: { $0.id == listing.id }) {
+                                    currentUser.removeFromFavorites(listing)
+                                    isFavorite = false
+                                } else {
+                                    currentUser.addToFavorites(listing)
+                                    isFavorite = true
+                                }
+                            }) {
+                                Image(systemName: isFavorite ? "heart.fill" : "heart")
+                                    .padding()
+                                    .foregroundColor(.blue)
+                                    .font(.title)
+                            }
+                        }else{
+                            // Show an alert if no user is logged in
+                               Button(action: {
+                                   showAlert = true
+                               }) {
+                                   // Favourite Icon = Alerts to SignIn/Register
+                                   Image(systemName: isFavorite ? "heart.fill" : "heart")
+                                       .padding()
+                                       .foregroundColor(.blue)
+                                       .font(.title)
+                               }
+                               .alert(isPresented: $showAlert) {
+                                   Alert(title: Text("Reminder"), message: Text("Please login or register to use the favorite function."), dismissButton: .default(Text("OK")))
+                               }
                         }
                     }
                     .padding()
                     
                     // Price Info
-                    Text("Price: $100") // Placeholder price
+                    Text("Price: $\(String(format: "%.2f", listing.price))") // Display actual price
                         .font(.headline)
                         .foregroundColor(.green)
                         .padding(.vertical)
                     
-                    // Buy Now Button (if applicable)
-                    // Add your implementation here
-                    
-                    // Add to Favorites Button
+                    // Share Button
                     Button(action: {
-                        // Action to add listing to favorites
+                        shareListing()
                     }) {
-                        Text("Add to Favorites")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                        Text("Share")
                     }
                     .padding()
+                    
+                    // Buy Now Button (if applicable)
+                    // Add your implementation here
                 }
                 .padding(.horizontal)
+            }
+        }
+        .onAppear{
+            if let currentUser = dataAccess.loggedInUser {
+                            isFavorite = currentUser.favorites.contains(where: { $0.id == listing.id })
+                        }
+        }
+    }
+    
+    func shareListing() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else {
+            return
+        }
+        
+        let items: [Any] = ["Check out this listing: \(listing.title)\nDescription: \(listing.description)\nPrice: $\(String(format: "%.2f", listing.price))"]
+        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        window.rootViewController?.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    
+    
+    struct ContactOptionsView: View {
+        let listing: Listing
+        
+        var body: some View {
+            VStack {
+                Text("Contact Options")
+                    .font(.title)
+                    .padding()
+                
+                Button(action: {
+                    // Action to call seller
+                }) {
+                    Text("Call \(listing.seller.name)")
+                        .padding()
+                }
+                
+                Button(action: {
+                    // Action to email seller
+                }) {
+                    Text("Email \(listing.seller.name)")
+                        .padding()
+                }
+                
+                Spacer()
             }
         }
     }
 }
 
 
-#Preview {
-    ListingView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ListingView(listing: Listing(id: 1, title: "Sample Listing", description: "This is a sample listing description.", category: .electronics, price: 99.99, seller: User(id: 1, name: "John Doe", email: "john@example.com", password: "123", phoneNumber: "123456789"), email: "john@example.com", phoneNumber: "123456789"))
+    }
 }
