@@ -11,16 +11,16 @@ struct FavoritesView: View {
     @State private var showAllItems = true // Toggle between "All Items" and "Collections"
     @State private var showCreateCollection = false
     @State private var newCollectionName = ""
+    @State private var loggedInUser: User?
+
     
     @EnvironmentObject var dataAccess: DataAccess
     
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .topLeading) {
-                // CustomBackFragment aligned to leading edge with slight offset
-                CustomBackFragment()
-                    .alignmentGuide(.leading) { _ in -10 }
                 VStack {
+                    // Menu Bar
+                    MenuTemplate().environmentObject(dataAccess)
                     // Title
                     Spacer()
                     Text("Favorites")
@@ -65,7 +65,7 @@ struct FavoritesView: View {
                     // Favorites List or Collections Grid
                     if showAllItems {
                         // List of all items
-                        FavoritesListView()
+                        FavoritesListView().environmentObject(dataAccess)
                     } else {
                         // Grid of collections
                         CollectionsGridView()
@@ -86,20 +86,20 @@ struct FavoritesView: View {
                     Spacer()
                 }
                 .padding()
-            }
         }
     }
 }
 
 struct FavoritesListView: View {
+    @EnvironmentObject var dataAccess: DataAccess
+
     var body: some View {
         ScrollView {
             VStack {
-                ForEach(0..<10) { index in
-                    // Example of a row in the list view
-                    FavoriteListItemView()
-                        .padding(.vertical, 8)
-                }
+                ForEach(dataAccess.loggedInUserFavorites) { listing in
+                                    FavoriteListItemView(listing: listing)
+                                        .padding(.vertical, 8)
+                                }
             }
             .padding()
         }
@@ -107,6 +107,8 @@ struct FavoritesListView: View {
 }
 
 struct FavoriteListItemView: View {
+    let listing: Listing
+
     var body: some View {
         HStack {
             // Image, Title, Price
@@ -115,8 +117,8 @@ struct FavoriteListItemView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 50, height: 50)
             VStack(alignment: .leading) {
-                Text("Listing Title")
-                Text("Price")
+                Text(listing.title) // Display actual listing title
+                Text("$\(String(format: "%.2f", listing.price))") // Display actual price
             }
             Spacer()
             

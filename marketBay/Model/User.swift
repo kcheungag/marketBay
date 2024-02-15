@@ -67,7 +67,7 @@ class User: Codable {
    }
     
     // Function to save user data to UserDefaults
-    private func saveUserData() {
+     func saveUserData() {
         var allUsersData = UserDefaults.standard.array(forKey: "allUsersData") as? [[String: Any]] ?? []
 
            let userData: [String: Any] = [
@@ -91,7 +91,7 @@ class User: Codable {
     }
 
     // Function to load user data from UserDefaults
-    private func loadUserData() {
+     func loadUserData() {
         guard let allUsersData = UserDefaults.standard.array(forKey: "allUsersData") as? [[String: Any]] else {
                    return
         }

@@ -14,7 +14,7 @@ struct DashboardView: View {
     var body: some View {
         NavigationStack {
             VStack {
-            //MenuTemplate().environmentObject(dataAccess)
+            MenuTemplate().environmentObject(dataAccess)
                 // Title "You"
                 Text("Dashboard")
                     .font(.title)
@@ -29,8 +29,12 @@ struct DashboardView: View {
                         .frame(width: 50, height: 50)
                     
                     VStack(alignment: .leading) {
-                        Text("User Name") // Placeholder user name
-                            .font(.headline)
+                        
+                        if let currentUser = dataAccess.loggedInUser {
+                            
+                            Text(currentUser.name)
+                                .font(.headline)
+                        }
                         
                         Button {
                             appRootManager.currentRoot = .profileView
@@ -47,9 +51,12 @@ struct DashboardView: View {
                 
                 // ListView Layout
                 VStack {
-                    DashboardItemView(icon: "star.fill", title: "Favorites")
-                    DashboardItemView(icon: "doc.plaintext.fill", title: "Current Listings")
-                    DashboardItemView(icon: "plus.circle.fill", title: "Add a Listing")
+                    NavigationLink(destination: FavoritesView().environmentObject(dataAccess)) {
+                        DashboardItemView(icon: "star.fill", title: "Favorites")}
+                    NavigationLink(destination: MyPostsView().environmentObject(dataAccess)) {
+                        DashboardItemView(icon: "doc.plaintext.fill", title: "Current Listings")}
+                    NavigationLink(destination: CreatePostView().environmentObject(dataAccess)) {
+                        DashboardItemView(icon: "plus.circle.fill", title: "Add a Listing")}
                 }
                 .padding()
                 

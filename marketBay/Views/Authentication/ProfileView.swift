@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject private var appRootManager: AppRootManager
     @EnvironmentObject var dataAccess: DataAccess
     
     @State private var loggedInUser: User?
