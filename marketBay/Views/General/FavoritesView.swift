@@ -12,98 +12,98 @@ struct FavoritesView: View {
     @State private var showAllItems = true
     @State private var showCreateCollection = false
     @State private var showAddToList = false
-
+    
     @State private var newCollectionName = ""
     @State private var loggedInUser: User?
     @State private var selectedCollections: [Collection] = []
     @State private var selectedListing: Listing?
-
+    
     @EnvironmentObject var dataAccess: DataAccess
     
     var body: some View {
         NavigationStack {
-                VStack {
-                    // Menu Bar
-                    MenuTemplate().environmentObject(dataAccess)
-                    // Title
-                    Spacer()
-                    Text("Favorites")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(.top)
-                    
-                    // Buttons: All Items and Collections
-                    HStack {
-                        Button(action: {
-                            showAllItems = true
-                        }) {
-                            Text("All Items")
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 10)
-                                .foregroundColor(showAllItems ? .white : .blue)
-                                .background(showAllItems ? Color.blue : Color.white)
-                                .cornerRadius(20)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.blue, lineWidth: 1)
-                                )
-                        }
-                        
-                        Button(action: {
-                            showAllItems = false
-                        }) {
-                            Text("Collections")
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 10)
-                                .foregroundColor(!showAllItems ? .white : .blue)
-                                .background(!showAllItems ? Color.blue : Color.white)
-                                .cornerRadius(20)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.blue, lineWidth: 1)
-                                )
-                        }
-                    }
-                    .padding()
-                    
-                    // Favorites List or Collections Grid
-                    if showAllItems {
-                        // List of all items
-                        FavoritesListView(showAddToList: $showAddToList, selectedListing: $selectedListing).environmentObject(dataAccess)
-                    } else {
-                        // Grid of collections
-                        CollectionsGridView()
-                    }
-                    
-                    // Create Collection Button
+            VStack {
+                // Menu Bar
+                MenuTemplate().environmentObject(dataAccess)
+                // Title
+                Spacer()
+                Text("Favorites")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.top)
+                
+                // Buttons: All Items and Collections
+                HStack {
                     Button(action: {
-                        showCreateCollection = true
+                        showAllItems = true
                     }) {
-                        Text("Create a Collection")
-                            .padding()
-                            .foregroundColor(.blue)
-                    }
-                    .sheet(isPresented: $showCreateCollection) {
-                        CreateCollectionView(isPresented: $showCreateCollection, collectionName: $newCollectionName).environmentObject(dataAccess)
+                        Text("All Items")
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+                            .foregroundColor(showAllItems ? .white : .blue)
+                            .background(showAllItems ? Color.blue : Color.white)
+                            .cornerRadius(20)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.blue, lineWidth: 1)
+                            )
                     }
                     
-                    Spacer()
+                    Button(action: {
+                        showAllItems = false
+                    }) {
+                        Text("Collections")
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+                            .foregroundColor(!showAllItems ? .white : .blue)
+                            .background(!showAllItems ? Color.blue : Color.white)
+                            .cornerRadius(20)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.blue, lineWidth: 1)
+                            )
+                    }
                 }
                 .padding()
-                .sheet(isPresented: $showAddToList) {
-                                AddToListView(selectedCollections: $selectedCollections, selectedListing: $selectedListing, showAddToList: $showAddToList).environmentObject(dataAccess)
-                            }
-                .onAppear{
-                    // Fetch user-specific collections when the view appears
-                                    if let user = dataAccess.loggedInUser {
-                                        dataAccess.getLoggedInUserCollections(for: user)
-                                    }
-                                    
-                                    // Fetch favorite listings for the logged-in user when the view appears
-                                    if let user = dataAccess.loggedInUser {
-                                        dataAccess.loggedInUserFavorites = dataAccess.getLoggedInUserFavorites(for: user)
-                                    }
+                
+                // Favorites List or Collections Grid
+                if showAllItems {
+                    // List of all items
+                    FavoritesListView(showAddToList: $showAddToList, selectedListing: $selectedListing).environmentObject(dataAccess)
+                } else {
+                    // Grid of collections
+                    CollectionsGridView()
                 }
+                
+                // Create Collection Button
+                Button(action: {
+                    showCreateCollection = true
+                }) {
+                    Text("Create a Collection")
+                        .padding()
+                        .foregroundColor(.blue)
+                }
+                .sheet(isPresented: $showCreateCollection) {
+                    CreateCollectionView(isPresented: $showCreateCollection, collectionName: $newCollectionName).environmentObject(dataAccess)
+                }
+                
+                Spacer()
+            }
+            .padding()
+            .sheet(isPresented: $showAddToList) {
+                AddToListView(selectedCollections: $selectedCollections, selectedListing: $selectedListing, showAddToList: $showAddToList).environmentObject(dataAccess)
+            }
+            .onAppear{
+                // Fetch user-specific collections when the view appears
+                if let user = dataAccess.loggedInUser {
+                    dataAccess.getLoggedInUserCollections(for: user)
+                }
+                
+                // Fetch favorite listings for the logged-in user when the view appears
+                if let user = dataAccess.loggedInUser {
+                    dataAccess.loggedInUserFavorites = dataAccess.getLoggedInUserFavorites(for: user)
+                }
+            }
         }
     }
 }
@@ -112,14 +112,14 @@ struct FavoritesListView: View {
     @EnvironmentObject var dataAccess: DataAccess
     @Binding var showAddToList: Bool
     @Binding var selectedListing: Listing?
-
+    
     var body: some View {
         ScrollView {
             VStack {
                 ForEach(dataAccess.loggedInUserFavorites) { listing in
                     FavoriteListItemView(listing: listing, showAddToList: $showAddToList, selectedListing: $selectedListing).environmentObject(dataAccess)
-                                        .padding(.vertical, 8)
-                                }
+                        .padding(.vertical, 8)
+                }
             }
             .padding()
         }
@@ -132,7 +132,7 @@ struct FavoriteListItemView: View {
     @Binding var selectedListing: Listing?
     
     @EnvironmentObject var dataAccess: DataAccess
-
+    
     var body: some View {
         HStack {
             // Image, Title, Price
@@ -156,15 +156,15 @@ struct FavoriteListItemView: View {
             }
             Button(action: {
                 // Remove item from favorites
-                                dataAccess.toggleFavorite(for: listing) { success in
-                                    if success {
-                                        // Successfully removed from favorites
-                                        print("\(listing)removed from favorites")
-                                    } else {
-                                        // Failed to remove from favorites
-                                        print("Fail to remove listing from favorites")
-                                    }
-                                }
+                dataAccess.toggleFavorite(for: listing) { success in
+                    if success {
+                        // Successfully removed from favorites
+                        print("\(listing)removed from favorites")
+                    } else {
+                        // Failed to remove from favorites
+                        print("Fail to remove listing from favorites")
+                    }
+                }
             }) {
                 Image(systemName: "minus.circle")
             }
@@ -178,7 +178,7 @@ struct AddToListView: View {
     @Binding var selectedListing: Listing?
     @Binding var showAddToList: Bool
     @State private var selectedCollectionIndex = 0
-
+    
     var body: some View {
         VStack {
             Picker("Select Collection", selection: $selectedCollectionIndex) {
@@ -190,10 +190,15 @@ struct AddToListView: View {
             
             Button("Add to Collection") {
                 if let listing = selectedListing {
-                    let selectedCollection = dataAccess.loggedInUserCollections[selectedCollectionIndex]
-                    dataAccess.addToCollection(listing: listing, collection: selectedCollection)
+                    if selectedCollectionIndex < dataAccess.loggedInUserCollections.count {
+                        let selectedCollection = dataAccess.loggedInUserCollections[selectedCollectionIndex]
+                        dataAccess.addToCollection(listing: listing, collection: selectedCollection)
+                        showAddToList = false
+                    } else {
+                        // Handle invalid index scenario here
+                        print("Invalid collection index")
+                    }
                 }
-                showAddToList = false
             }
             .padding()
             .disabled(selectedListing == nil)
@@ -204,7 +209,7 @@ struct AddToListView: View {
 
 struct CollectionsGridView: View {
     @EnvironmentObject var dataAccess: DataAccess
-
+    
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
@@ -221,7 +226,7 @@ struct CollectionsGridView: View {
 struct CollectionGridViewItem: View {
     @State private var isShowingListings = false
     let collection: Collection
-
+    
     var body: some View {
         VStack {
             // Collection Image
@@ -234,18 +239,18 @@ struct CollectionGridViewItem: View {
             Text(collection.name)
         }
         .onTapGesture {
-                    isShowingListings.toggle()
-                }
+            isShowingListings.toggle()
+        }
         .sheet(isPresented: $isShowingListings) {
-                   // Sheet displaying listings included in this collection
-                   CollectionListingsView(collection: collection)
-               }
+            // Sheet displaying listings included in this collection
+            CollectionListingsView(collection: collection)
+        }
     }
 }
 
 struct CollectionListingsView: View {
     let collection: Collection
-
+    
     var body: some View {
         NavigationView {
             // List of listings in this collection
@@ -265,7 +270,7 @@ struct CreateCollectionView: View {
     @Binding var collectionName: String
     
     @EnvironmentObject var dataAccess: DataAccess
-
+    
     var body: some View {
         NavigationView {
             VStack {
