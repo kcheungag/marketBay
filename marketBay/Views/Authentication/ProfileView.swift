@@ -122,6 +122,7 @@ struct ProfileView: View {
             self.loggedInUser?.updateProfile(self.nameFromUI, self.passwordFromUI, self.phoneNumberFromUI)
             self.errorMessage = ""
             self.successMessage = "Profile Updated Successfully"
+            dataAccess.login(user: loggedInUser!)
         }
     }
 }
