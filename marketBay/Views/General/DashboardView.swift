@@ -72,19 +72,6 @@ struct DashboardView: View {
             }
             .padding()
         }
-        .onAppear{
-            if let user = dataAccess.loggedInUser {
-                            let userPostings = dataAccess.getPosts(idFilter: user.id)
-                            
-                            // Calculate number of postings
-                            numberOfPostings = userPostings.count
-                            
-                // Calculate the total number of favorites gained by the user's postings
-                 numberOfFavorites = userPostings.reduce(into: 0) { count, posting in
-                    count += posting.favoriteCount
-                }
-            }
-        }
     }
 }
 
