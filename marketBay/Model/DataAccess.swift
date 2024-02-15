@@ -12,7 +12,8 @@ final class DataAccess: ObservableObject {
     @Published var loggedInUserPostings: [Listing] = []
     @Published var loggedInUserFavorites: [Listing] = []
 
-    
+    let userFavoritesKeyPrefix = "LoggedInUserFavorites_"
+
     // MARK: User Management
     func login(user: User) {
         do {
@@ -20,6 +21,7 @@ final class DataAccess: ObservableObject {
             UserDefaults.standard.set(encodedData, forKey: UserDefaultsEnum.loggedInUser.rawValue)
             loggedInUser = user
             loggedInUserPostings = getPosts(idFilter: user.id).sorted(by: { $0.id > $1.id })
+            loggedInUserFavorites = getLoggedInUserFavorites(for: user) // Retrieve favorites for the logged-in user
             // Debug print to check if user is logged in and data is retrieved properly
                     print("User logged in: \(user)")
                     print("User's postings: \(loggedInUserPostings)")
@@ -40,6 +42,29 @@ final class DataAccess: ObservableObject {
         }
         
         return nil
+    }
+    
+    // Retrieve loggedInUserFavorites for a specific user
+    func getLoggedInUserFavorites(for user: User) -> [Listing] {
+            if let savedData = UserDefaults.standard.object(forKey: userFavoritesKeyPrefix + "\(user.id)") as? Data {
+                do {
+                    let favorites = try JSONDecoder().decode([Listing].self, from: savedData)
+                    return favorites
+                } catch {
+                    print("Failed to decode loggedInUserFavorites for user \(user.id)")
+                }
+            }
+            return []
+        }
+    
+    // Save loggedInUserFavorites for a specific user
+    func saveLoggedInUserFavorites(for user: User) {
+        do {
+            let encodedData = try JSONEncoder().encode(loggedInUserFavorites)
+            UserDefaults.standard.set(encodedData, forKey: userFavoritesKeyPrefix + "\(user.id)")
+        } catch {
+            print("Failed to encode loggedInUserFavorites to Data")
+        }
     }
     
     func logout() {
@@ -98,6 +123,8 @@ final class DataAccess: ObservableObject {
             }
             // Update loggedInUserFavorites
             loggedInUserFavorites = currentUser.favorites
+            // Save loggedInUserFavorites for the logged-in user
+            saveLoggedInUserFavorites(for: currentUser)
             // Save user data immediately after toggling favorite status
             currentUser.saveUserData()
             saveUser(currentUser)
