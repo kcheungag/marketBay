@@ -20,86 +20,81 @@ struct ProfileView: View {
     @State private var successMessage : String = ""
     
     var body: some View {
-        NavigationStack {
-            // Menu Bar
-            MenuTemplate().environmentObject(dataAccess)
-            VStack(alignment: .leading, spacing: 20.0) {
-                // CustomBackFragment aligned to leading edge with slight offset
-                CustomBackFragment()
-                    .alignmentGuide(.leading) { _ in -10 }
-                Text("")
-                    .frame(maxWidth: .infinity)
-                HStack{
-                    Spacer()
-                    Text("Profile")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(.top)
-                    Spacer()
-                }
+        VStack(alignment: .leading, spacing: 20.0) {
+            MenuTemplate()
+                .alignmentGuide(.leading) { _ in -10 }
+            Text("")
+                .frame(maxWidth: .infinity)
+            HStack{
                 Spacer()
-                Grid(alignment: .leading,horizontalSpacing: 10, verticalSpacing: 10){
-                    GridRow(alignment: .firstTextBaseline){
-                        Text("Email")
-                        Text(self.emailFromUI)
-                    }
-                    GridRow(alignment: .firstTextBaseline){
-                        Text("Name")
-                        TextField("Name", text: self.$nameFromUI)
-                    }
-                    GridRow(alignment: .firstTextBaseline){
-                        Text("Password")
-                        SecureField("Password", text: self.$passwordFromUI)
-                    }
-                    GridRow(alignment: .firstTextBaseline){
-                        Text("Phone Number")
-                        TextField("Phone Number", text: self.$phoneNumberFromUI)
-                    }
-                }
-                Spacer()
-                HStack{
-                    Spacer()
-                    Text(self.errorMessage)
-                        .padding(self.errorMessage.isEmpty ? 0.0 : 5.0)
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.white)
-                        .background(.red)
-                        .font(.title3)
-                        .cornerRadius(10.0)
-                    Spacer()
-                }
-                HStack{
-                    Spacer()
-                    Text(self.successMessage)
-                        .padding(self.successMessage.isEmpty ? 0.0 : 5.0)
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.white)
-                        .background(.green)
-                        .font(.title3)
-                        .cornerRadius(10.0)
-                    Spacer()
-                }
-                Spacer()
-                HStack{
-                    Spacer()
-                    Button{
-                        self.updateProfile()
-                    }label: {
-                        Text("Update")
-                    }
-                    .buttonStyle(.borderedProminent)
-                    Spacer()
-                }
+                Text("Profile")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.top)
                 Spacer()
             }
-            .padding()
-            .onAppear(){
-                loggedInUser = dataAccess.getLoggedInUser()
-                emailFromUI = loggedInUser?.email ?? ""
-                nameFromUI = loggedInUser?.name ?? ""
-                passwordFromUI = loggedInUser?.password ?? ""
-                phoneNumberFromUI = loggedInUser?.phoneNumber ?? ""
+            Spacer()
+            Grid(alignment: .leading,horizontalSpacing: 10, verticalSpacing: 10){
+                GridRow(alignment: .firstTextBaseline){
+                    Text("Email")
+                    Text(self.emailFromUI)
+                }
+                GridRow(alignment: .firstTextBaseline){
+                    Text("Name")
+                    TextField("Name", text: self.$nameFromUI)
+                }
+                GridRow(alignment: .firstTextBaseline){
+                    Text("Password")
+                    SecureField("Password", text: self.$passwordFromUI)
+                }
+                GridRow(alignment: .firstTextBaseline){
+                    Text("Phone Number")
+                    TextField("Phone Number", text: self.$phoneNumberFromUI)
+                }
             }
+            Spacer()
+            HStack{
+                Spacer()
+                Text(self.errorMessage)
+                    .padding(self.errorMessage.isEmpty ? 0.0 : 5.0)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.white)
+                    .background(.red)
+                    .font(.title3)
+                    .cornerRadius(10.0)
+                Spacer()
+            }
+            HStack{
+                Spacer()
+                Text(self.successMessage)
+                    .padding(self.successMessage.isEmpty ? 0.0 : 5.0)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.white)
+                    .background(.green)
+                    .font(.title3)
+                    .cornerRadius(10.0)
+                Spacer()
+            }
+            Spacer()
+            HStack{
+                Spacer()
+                Button{
+                    self.updateProfile()
+                }label: {
+                    Text("Update")
+                }
+                .buttonStyle(.borderedProminent)
+                Spacer()
+            }
+            Spacer()
+        }
+        .padding()
+        .onAppear(){
+            loggedInUser = dataAccess.getLoggedInUser()
+            emailFromUI = loggedInUser?.email ?? ""
+            nameFromUI = loggedInUser?.name ?? ""
+            passwordFromUI = loggedInUser?.password ?? ""
+            phoneNumberFromUI = loggedInUser?.phoneNumber ?? ""
         }
     }
     
@@ -129,10 +124,8 @@ struct ProfileView: View {
             self.successMessage = "Profile Updated Successfully"
             dataAccess.login(user: loggedInUser!)
         }
-        
     }
 }
-
 
 #Preview {
     ProfileView()
