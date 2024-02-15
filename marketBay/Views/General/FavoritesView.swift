@@ -190,10 +190,15 @@ struct AddToListView: View {
             
             Button("Add to Collection") {
                 if let listing = selectedListing {
-                    let selectedCollection = dataAccess.loggedInUserCollections[selectedCollectionIndex]
-                    dataAccess.addToCollection(listing: listing, collection: selectedCollection)
+                    if selectedCollectionIndex < dataAccess.loggedInUserCollections.count {
+                        let selectedCollection = dataAccess.loggedInUserCollections[selectedCollectionIndex]
+                        dataAccess.addToCollection(listing: listing, collection: selectedCollection)
+                        showAddToList = false
+                    } else {
+                        // Handle invalid index scenario here
+                        print("Invalid collection index")
+                    }
                 }
-                showAddToList = false
             }
             .padding()
             .disabled(selectedListing == nil)
@@ -245,17 +250,27 @@ struct CollectionGridViewItem: View {
 
 struct CollectionListingsView: View {
     let collection: Collection
+    @EnvironmentObject var dataAccess: DataAccess
 
     var body: some View {
         NavigationView {
-            // List of listings in this collection
-            List(collection.listings, id: \.id) { listing in
-                NavigationLink(destination: ListingView(listing: listing)) {
-                    Text(listing.title)
+            List {
+                ForEach(collection.listings, id: \.id) { listing in
+                    NavigationLink(destination: ListingView(listing: listing)) {
+                        Text(listing.title)
+                    }
                 }
+                .onDelete(perform: deleteListing)
             }
+            .navigationBarTitle(Text("Listings in \(collection.name)"))
         }
-        .navigationBarTitle(Text("Listings in \(collection.name)"))
+    }
+    
+    func deleteListing(at offsets: IndexSet) {
+        for index in offsets {
+            let listing = collection.listings[index]
+            dataAccess.removeFromCollection(listing: listing, collection: collection)
+        }
     }
 }
 

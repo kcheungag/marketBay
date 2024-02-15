@@ -185,6 +185,14 @@ final class DataAccess: ObservableObject {
         }
     }
     
+    // Function to remove a listing from a collection
+        func removeFromCollection(listing: Listing, collection: Collection) {
+            if let index = loggedInUserCollections.firstIndex(where: { $0.id == collection.id }) {
+                loggedInUserCollections[index].listings.removeAll(where: { $0.id == listing.id })
+                saveLoggedInUserCollections(for: loggedInUser!)
+            }
+        }
+    
     // Retrieve loggedInUserCollections for a specific user
        func getLoggedInUserCollections(for user: User) -> [Collection] {
            if let savedData = UserDefaults.standard.object(forKey: "\(userCollectionsKeyPrefix)\(user.id)") as? Data {
