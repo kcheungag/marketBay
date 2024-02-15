@@ -8,5 +8,5 @@
 import Foundation
 
 struct GlobalVars {
-     static var userID = 0
+     static var userID = 3
 }
