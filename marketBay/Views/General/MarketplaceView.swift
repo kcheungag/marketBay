@@ -18,7 +18,7 @@ struct MarketplaceView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                // Menu Bar （Error)
+                // Menu Bar
                 MenuTemplate().environmentObject(dataAccess)
                 
                 // Horizontal Category Selector

@@ -16,11 +16,6 @@ struct ListingView: View {
     @State private var showingContactOptions = false
     
     var body: some View {
-        NavigationView {
-        ZStack(alignment: .topLeading) {
-            // CustomBackFragment aligned to leading edge with slight offset
-            CustomBackFragment()
-                .alignmentGuide(.leading) { _ in -10 }
             ScrollView {
                 VStack {
                     Spacer()
@@ -125,14 +120,10 @@ struct ListingView: View {
                 }
                 .padding(.horizontal)
             }
-        }
-        .onAppear{
+            .onAppear{
             if let currentUser = dataAccess.loggedInUser {
-                isFavorite = currentUser.favorites.contains(where: { $0.id == listing.id })
-            }
-        }
-        .navigationBarTitle("")
-                    .navigationBarBackButtonHidden(true)
+                            isFavorite = currentUser.favorites.contains(where: { $0.id == listing.id })
+                        }
         }
     }
     
