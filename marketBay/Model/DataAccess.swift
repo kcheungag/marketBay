@@ -11,7 +11,7 @@ final class DataAccess: ObservableObject {
     @Published var loggedInUser: User? = nil
     @Published var loggedInUserPostings: [Listing] = []
     
-    // MARK: Log User In
+    // MARK: User Management
     func login(user: User) {
         do {
             let encodedData = try JSONEncoder().encode(user)
@@ -23,7 +23,6 @@ final class DataAccess: ObservableObject {
         }
     }
     
-    // MARK: Check Logged In User Exists
     func getLoggedInUser() -> User? {
         if let savedData = UserDefaults.standard.object(forKey: UserDefaultsEnum.loggedInUser.rawValue) as? Data {
             do{
@@ -38,13 +37,13 @@ final class DataAccess: ObservableObject {
         return nil
     }
     
-    // MARK: Logout
     func logout() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsEnum.loggedInUser.rawValue)
         loggedInUser = nil
+        loggedInUserPostings = []
     }
     
-    // MARK: Access Posts
+    // MARK: Post/Listing Management
     func getPosts(idFilter: Int?) -> [Listing] {
         if let savedData = UserDefaults.standard.object(forKey: UserDefaultsEnum.posts.rawValue) as? Data {
             do{
@@ -59,12 +58,17 @@ final class DataAccess: ObservableObject {
         return []
     }
     
-    // MARK: Save Post
-    func savePosts(post: Listing) {
+    func savePosts(post: Listing, isUpdate: Bool = false) {
         do {
             var currentPost = post
             var savedPosts = getPosts(idFilter: nil)
-            currentPost.id = savedPosts.count + 1
+            
+            if(isUpdate) {
+                savedPosts.remove(at: savedPosts.firstIndex(where: { $0.id == post.id })!)
+            } else {
+                currentPost.id = savedPosts.count + 1
+            }
+            
             savedPosts.append(currentPost)
             let encodedData = try JSONEncoder().encode(savedPosts)
             
