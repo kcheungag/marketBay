@@ -24,7 +24,7 @@ struct MyPostsView: View {
                             Section(header: Text("Available")){
                                 ForEach(dataAccess.loggedInUserPostings.filter{$0.status == .available}) { listing in
                                     NavigationLink{
-                                        PostView(listing: listing)
+                                        PostView(listing: listing).environmentObject(dataAccess)
                                     }label:{
                                         MyPostsRow(listing: listing)
                                     }
