@@ -86,7 +86,7 @@ final class DataAccess: ObservableObject {
        }
     
     // MARK: Save User
-       private func saveUser(_ user: User) {
+    func saveUser(_ user: User) {
            do {
                let encodedData = try JSONEncoder().encode(user)
                UserDefaults.standard.set(encodedData, forKey: UserDefaultsEnum.loggedInUser.rawValue)
