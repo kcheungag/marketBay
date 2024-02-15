@@ -44,11 +44,14 @@ final class DataAccess: ObservableObject {
     // MARK: Access Posts
     func getPosts(idFilter: Int?) -> [Listing] {
         if let savedData = UserDefaults.standard.object(forKey: UserDefaultsEnum.posts.rawValue) as? Data {
-            do{
-                return try JSONDecoder().decode([Listing].self, from: savedData)
+            do {
+                let decodedListings = try JSONDecoder().decode([Listing].self, from: savedData)
+                print("Decoded listings: \(decodedListings)")
+                return decodedListings
             } catch {
-                print("Failed to convert Data to Listing")
+                print("Failed to decode data: \(error)")
             }
+
         }
         
         return []

@@ -36,6 +36,7 @@
 		A6B0BE132B7AB34E006A149A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0BE122B7AB34E006A149A /* User.swift */; };
 		A6B0BE162B7AC15F006A149A /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0BE152B7AC15F006A149A /* CreatePostView.swift */; };
 		A6B0BE602B7D811D006A149A /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0BE5F2B7D811D006A149A /* SampleData.swift */; };
+		A6B0BE622B7D87D8006A149A /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0BE612B7D87D8006A149A /* Categories.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 		A6B0BE122B7AB34E006A149A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A6B0BE152B7AC15F006A149A /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		A6B0BE5F2B7D811D006A149A /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		A6B0BE612B7D87D8006A149A /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 			children = (
 				99B5E6E52B75D4BA00C0786A /* Screens.swift */,
 				990024562B7B4C7E00F94DF7 /* UserDefaultsEnum.swift */,
+				A6B0BE612B7D87D8006A149A /* Categories.swift */,
 			);
 			path = enums;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6B0BE132B7AB34E006A149A /* User.swift in Sources */,
+				A6B0BE622B7D87D8006A149A /* Categories.swift in Sources */,
 				99B5E6DD2B75CC3700C0786A /* MenuTemplate.swift in Sources */,
 				990024552B7B2F9900F94DF7 /* BackMenuFragment.swift in Sources */,
 				990024572B7B4C7E00F94DF7 /* UserDefaultsEnum.swift in Sources */,
