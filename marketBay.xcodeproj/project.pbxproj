@@ -37,6 +37,7 @@
 		A6B0BE162B7AC15F006A149A /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0BE152B7AC15F006A149A /* CreatePostView.swift */; };
 		A6B0BE602B7D811D006A149A /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0BE5F2B7D811D006A149A /* SampleData.swift */; };
 		A6B0BE622B7D87D8006A149A /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0BE612B7D87D8006A149A /* Categories.swift */; };
+		A6B0BE642B7E25F7006A149A /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B0BE632B7E25F7006A149A /* Collection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +72,7 @@
 		A6B0BE152B7AC15F006A149A /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		A6B0BE5F2B7D811D006A149A /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		A6B0BE612B7D87D8006A149A /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
+		A6B0BE632B7E25F7006A149A /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 				821BC5AE2B7B03E000798E22 /* GlobalVars.swift */,
 				990024582B7B515700F94DF7 /* DataAccess.swift */,
 				A6B0BE5F2B7D811D006A149A /* SampleData.swift */,
+				A6B0BE632B7E25F7006A149A /* Collection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				A6B0BE0C2B7AAF7E006A149A /* MarketplaceView.swift in Sources */,
 				821BC5AF2B7B03E000798E22 /* GlobalVars.swift in Sources */,
 				99B5E6DB2B75CB0500C0786A /* DashboardView.swift in Sources */,
+				A6B0BE642B7E25F7006A149A /* Collection.swift in Sources */,
 				99B5E6E32B75D28100C0786A /* FavoritesView.swift in Sources */,
 				9913758C2B7DE73A0080D058 /* TextFragment.swift in Sources */,
 				A6B0BE162B7AC15F006A149A /* CreatePostView.swift in Sources */,

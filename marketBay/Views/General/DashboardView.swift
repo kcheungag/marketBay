@@ -10,6 +10,8 @@ import SwiftUI
 struct DashboardView: View {
     @EnvironmentObject private var appRootManager: AppRootManager
     @EnvironmentObject var dataAccess: DataAccess
+    @State private var numberOfPostings = 0
+    @State private var numberOfFavorites = 0
     
     var body: some View {
         NavigationStack {
@@ -57,12 +59,31 @@ struct DashboardView: View {
                         DashboardItemView(icon: "doc.plaintext.fill", title: "Current Listings")}
                     NavigationLink(destination: CreatePostView().environmentObject(dataAccess)) {
                         DashboardItemView(icon: "plus.circle.fill", title: "Add a Listing")}
+                    
+                   // Display number of postings
+                   Text("Number of Postings: \(numberOfPostings)")
+                   
+                   // Display number of favorites gained by the user's postings
+                   Text("Number of Favorites Gained: \(numberOfFavorites)")
                 }
                 .padding()
                 
                 Spacer()
             }
             .padding()
+        }
+        .onAppear{
+            if let user = dataAccess.loggedInUser {
+                            let userPostings = dataAccess.getPosts(idFilter: user.id)
+                            
+                            // Calculate number of postings
+                            numberOfPostings = userPostings.count
+                            
+                // Calculate the total number of favorites gained by the user's postings
+                 numberOfFavorites = userPostings.reduce(into: 0) { count, posting in
+                    count += posting.favoriteCount
+                }
+            }
         }
     }
 }

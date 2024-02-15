@@ -17,9 +17,11 @@ struct Listing: Codable, Identifiable {
     let email: String
     let phoneNumber: String
     var status: PostStatus
+    var favoriteCount: Int // track the number of favorites
+
     
     // Initializer
-    init(id: Int, title: String, description: String, category: Category, price: Double, seller: User, email: String, phoneNumber: String, status: PostStatus) {
+    init(id: Int, title: String, description: String, category: Category, price: Double, seller: User, email: String, phoneNumber: String, status: PostStatus, favoriteCount: Int) {
         self.id = id
         self.title = title
         self.description = description
@@ -29,5 +31,6 @@ struct Listing: Codable, Identifiable {
         self.email = email
         self.phoneNumber = phoneNumber
         self.status = status
+        self.favoriteCount = 0
     }
 }
