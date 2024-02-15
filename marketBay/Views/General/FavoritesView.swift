@@ -250,17 +250,27 @@ struct CollectionGridViewItem: View {
 
 struct CollectionListingsView: View {
     let collection: Collection
-    
+    @EnvironmentObject var dataAccess: DataAccess
+
     var body: some View {
         NavigationView {
-            // List of listings in this collection
-            List(collection.listings, id: \.id) { listing in
-                NavigationLink(destination: ListingView(listing: listing)) {
-                    Text(listing.title)
+            List {
+                ForEach(collection.listings, id: \.id) { listing in
+                    NavigationLink(destination: ListingView(listing: listing)) {
+                        Text(listing.title)
+                    }
                 }
+                .onDelete(perform: deleteListing)
             }
+            .navigationBarTitle(Text("Listings in \(collection.name)"))
         }
-        .navigationBarTitle(Text("Listings in \(collection.name)"))
+    }
+    
+    func deleteListing(at offsets: IndexSet) {
+        for index in offsets {
+            let listing = collection.listings[index]
+            dataAccess.removeFromCollection(listing: listing, collection: collection)
+        }
     }
 }
 
