@@ -29,8 +29,12 @@ struct DashboardView: View {
                         .frame(width: 50, height: 50)
                     
                     VStack(alignment: .leading) {
-                        Text("User Name") // Placeholder user name
-                            .font(.headline)
+                        
+                        if let currentUser = dataAccess.loggedInUser {
+                            
+                            Text(currentUser.name)
+                                .font(.headline)
+                        }
                         
                         Button {
                             appRootManager.currentRoot = .profileView

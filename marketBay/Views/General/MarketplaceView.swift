@@ -63,7 +63,7 @@ struct MarketplaceView: View {
     func loadDummyData() {
         
         // Remove existing posts from UserDefaults
-         UserDefaults.standard.removeObject(forKey: UserDefaultsEnum.posts.rawValue)
+        // UserDefaults.standard.removeObject(forKey: UserDefaultsEnum.posts.rawValue)
         
         // DEBUG:
         print("Loading dummy data...")
