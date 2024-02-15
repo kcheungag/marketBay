@@ -9,16 +9,17 @@
 import SwiftUI
 
 struct MarketplaceView: View {
-    @State private var selectedCategory: String = "All"
+    @State private var selectedCategory: Category = .all
     @EnvironmentObject var dataAccess: DataAccess
+    @State private var listings: [Listing] = []   // Property to hold the listings
     
-    var categories = ["All", "Auto", "Furniture", "Electronics", "Women's Clothing", "Men's Clothing"]
-    
+    let categories: [Category] = [.all, .auto, .furniture, .electronics, .womensClothing, .mensClothing, .toys, .homeAndGarden]
+
     var body: some View {
         NavigationStack {
             VStack {
                 // Menu Bar （Error)
-                MenuTemplate().environmentObject(dataAccess)
+                //MenuTemplate().environmentObject(dataAccess)
                 
                 // Horizontal Category Selector
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -30,7 +31,7 @@ struct MarketplaceView: View {
                                 VStack {
                                     Image(systemName: "circle.fill") // Placeholder image
                                         .foregroundColor(category == selectedCategory ? .blue : .gray)
-                                    Text(category)
+                                    Text(category.rawValue) // Access the rawValue
                                         .font(.caption)
                                         .foregroundColor(category == selectedCategory ? .blue : .black)
                                 }
@@ -44,9 +45,9 @@ struct MarketplaceView: View {
                 // Grid-like Display of Items
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
-                        ForEach(1..<21) { index in
+                        ForEach(listings) { listing in
                             // Display each item in a grid
-                            ItemView()
+                            ItemView(listing: listing)
                         }
                     }
                     .padding(.horizontal)
@@ -56,11 +57,13 @@ struct MarketplaceView: View {
         }
         .onAppear() {
             loadDummyData()
-            dataAccess.loggedInUser = dataAccess.getLoggedInUser()
+            //dataAccess.loggedInUser = dataAccess.getLoggedInUser()
         }
     }
     
     func loadDummyData() {
+        print("Loading dummy data...")
+
         let posts = dataAccess.getPosts(idFilter: nil)
         
         if(posts.isEmpty) {
@@ -72,21 +75,33 @@ struct MarketplaceView: View {
             ]
             
             // MARK: Dummy Seller Posts
-            let posts = [
-                Listing(id: 1, title: "Unlock! A Noside Story", description: "Secret Adventures: Part 1", category: "Toys", price: 25.0, seller: users[0], email: users[0].email, phoneNumber: users[0].phoneNumber),
-                Listing(id: 2, title: "Unlock! Tombstone Express", description: "Secret Adventures: Part 2", category: "Toys", price: 25.0, seller: users[1], email: users[1].email, phoneNumber: users[1].phoneNumber),
-                Listing(id: 3, title: "Unlock! The Adventures of Oz", description: "Secret Adventures: Part 3", category: "Toys", price: 25.0, seller: users[2], email: users[2].email, phoneNumber: users[2].phoneNumber),
-            ]
+            let listings = [
+                       Listing(id: 1, title: "Unlock! A Noside Story", description: "Secret Adventures: Part 1", category: .toys, price: 25.0, seller: users[0], email: users[0].email, phoneNumber: users[0].phoneNumber),
+                       Listing(id: 2, title: "Unlock! Tombstone Express", description: "Secret Adventures: Part 2", category: .toys, price: 25.0, seller: users[1], email: users[1].email, phoneNumber: users[1].phoneNumber),
+                       Listing(id: 3, title: "Unlock! The Adventures of Oz", description: "Secret Adventures: Part 3", category: .toys, price: 25.0, seller: users[2], email: users[2].email, phoneNumber: users[2].phoneNumber),
+                       // Add more sample listings here
+                   ]
             
-            users[0].addListing(posts[0])
-            users[1].addListing(posts[1])
-            users[2].addListing(posts[2])
+            // Assign listings to the listings array
+            self.listings = listings
+            
+            for listing in listings {
+                       dataAccess.savePosts(post: listing)
+                   }
+            
+            for user in users {
+                        for listing in listings {
+                            user.addListing(listing)
+                        }
+                    }
         }
     }
 
 }
 
 struct ItemView: View {
+    let listing: Listing // Add a property to hold the listing information
+
     var body: some View {
         VStack {
             // Image and Title
@@ -94,18 +109,17 @@ struct ItemView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 150, height: 150)
-            Text("Item Title")
+            Text(listing.title)
                 .font(.headline)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
             
             // Price
-            Text("$100")
+            Text("$\(String(format:"%.2f", listing.price))")
                 .font(.subheadline)
                 .foregroundColor(.green)
                 .padding(.vertical, 5)
         }
-        .padding()
         .background(Color.gray.opacity(0.1))
         .cornerRadius(10)
     }
@@ -113,5 +127,8 @@ struct ItemView: View {
 
 
 #Preview {
-    MarketplaceView()
+    let dataAccess = DataAccess() // Create a mock DataAccess object
+    dataAccess.loggedInUser = User(id: 1, name: "John Doe", email: "john@example.com", password: "password", phoneNumber: "123456789")
+
+    return MarketplaceView().environmentObject(dataAccess)
 }

@@ -14,19 +14,7 @@ struct DashboardView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                MenuTemplate().environmentObject(dataAccess)
-                // Back Button
-                //            HStack {
-                //                Button(action: {
-                //                    // Action to go back
-                //                }) {
-                //                    Image(systemName: "chevron.left")
-                //                        .padding()
-                //                }
-                //                Spacer()
-                //                
-                //            }
-                
+            //MenuTemplate().environmentObject(dataAccess)
                 // Title "You"
                 Text("Dashboard")
                     .font(.title)
