@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    @State private var showAllItems = true // Toggle between "All Items" and "Collections"
+    // Toggle between "All Items" and "Collections"
+    @State private var showAllItems = true
     @State private var showCreateCollection = false
+    @State private var showAddToList = false
+
     @State private var newCollectionName = ""
     @State private var loggedInUser: User?
+    @State private var selectedCollections: [Collection] = []
+    @State private var selectedListing: Listing?
 
-    
     @EnvironmentObject var dataAccess: DataAccess
     
     var body: some View {
@@ -65,7 +69,7 @@ struct FavoritesView: View {
                     // Favorites List or Collections Grid
                     if showAllItems {
                         // List of all items
-                        FavoritesListView().environmentObject(dataAccess)
+                        FavoritesListView(showAddToList: $showAddToList, selectedListing: $selectedListing).environmentObject(dataAccess)
                     } else {
                         // Grid of collections
                         CollectionsGridView()
@@ -80,24 +84,40 @@ struct FavoritesView: View {
                             .foregroundColor(.blue)
                     }
                     .sheet(isPresented: $showCreateCollection) {
-                        CreateCollectionView(isPresented: $showCreateCollection, collectionName: $newCollectionName)
+                        CreateCollectionView(isPresented: $showCreateCollection, collectionName: $newCollectionName).environmentObject(dataAccess)
                     }
                     
                     Spacer()
                 }
                 .padding()
+                .sheet(isPresented: $showAddToList) {
+                                AddToListView(selectedCollections: $selectedCollections, selectedListing: $selectedListing, showAddToList: $showAddToList).environmentObject(dataAccess)
+                            }
+                .onAppear{
+                    // Fetch user-specific collections when the view appears
+                                    if let user = dataAccess.loggedInUser {
+                                        dataAccess.getLoggedInUserCollections(for: user)
+                                    }
+                                    
+                                    // Fetch favorite listings for the logged-in user when the view appears
+                                    if let user = dataAccess.loggedInUser {
+                                        dataAccess.loggedInUserFavorites = dataAccess.getLoggedInUserFavorites(for: user)
+                                    }
+                }
         }
     }
 }
 
 struct FavoritesListView: View {
     @EnvironmentObject var dataAccess: DataAccess
+    @Binding var showAddToList: Bool
+    @Binding var selectedListing: Listing?
 
     var body: some View {
         ScrollView {
             VStack {
                 ForEach(dataAccess.loggedInUserFavorites) { listing in
-                                    FavoriteListItemView(listing: listing)
+                    FavoriteListItemView(listing: listing, showAddToList: $showAddToList, selectedListing: $selectedListing).environmentObject(dataAccess)
                                         .padding(.vertical, 8)
                                 }
             }
@@ -108,6 +128,10 @@ struct FavoritesListView: View {
 
 struct FavoriteListItemView: View {
     let listing: Listing
+    @Binding var showAddToList: Bool
+    @Binding var selectedListing: Listing?
+    
+    @EnvironmentObject var dataAccess: DataAccess
 
     var body: some View {
         HStack {
@@ -125,11 +149,22 @@ struct FavoriteListItemView: View {
             // Add and Remove Icon Buttons
             Button(action: {
                 // Action to add item to collection
+                selectedListing = listing
+                showAddToList = true
             }) {
                 Image(systemName: "plus.circle")
             }
             Button(action: {
-                // Action to remove item from favorites
+                // Remove item from favorites
+                                dataAccess.toggleFavorite(for: listing) { success in
+                                    if success {
+                                        // Successfully removed from favorites
+                                        print("\(listing)removed from favorites")
+                                    } else {
+                                        // Failed to remove from favorites
+                                        print("Fail to remove listing from favorites")
+                                    }
+                                }
             }) {
                 Image(systemName: "minus.circle")
             }
@@ -137,13 +172,45 @@ struct FavoriteListItemView: View {
     }
 }
 
+struct AddToListView: View {
+    @EnvironmentObject var dataAccess: DataAccess
+    @Binding var selectedCollections: [Collection]
+    @Binding var selectedListing: Listing?
+    @Binding var showAddToList: Bool
+    @State private var selectedCollectionIndex = 0
+
+    var body: some View {
+        VStack {
+            Picker("Select Collection", selection: $selectedCollectionIndex) {
+                ForEach(dataAccess.loggedInUserCollections.indices, id: \.self) { index in
+                    Text(dataAccess.loggedInUserCollections[index].name)
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+            
+            Button("Add to Collection") {
+                if let listing = selectedListing {
+                    let selectedCollection = dataAccess.loggedInUserCollections[selectedCollectionIndex]
+                    dataAccess.addToCollection(listing: listing, collection: selectedCollection)
+                }
+                showAddToList = false
+            }
+            .padding()
+            .disabled(selectedListing == nil)
+        }
+        .padding()
+    }
+}
+
 struct CollectionsGridView: View {
+    @EnvironmentObject var dataAccess: DataAccess
+
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                ForEach(0..<6) { index in
+                ForEach(dataAccess.loggedInUserCollections) { index in
                     // Example of a grid item in the collections grid view
-                    CollectionGridViewItem()
+                    CollectionGridViewItem(collection: index)
                 }
             }
             .padding()
@@ -152,24 +219,53 @@ struct CollectionsGridView: View {
 }
 
 struct CollectionGridViewItem: View {
+    @State private var isShowingListings = false
+    let collection: Collection
+
     var body: some View {
         VStack {
             // Collection Image
-            Image(systemName: "photo")
+            Image(systemName: "folder")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 50, height: 50)
             
             // Collection Title
-            Text("Collection Name")
+            Text(collection.name)
         }
+        .onTapGesture {
+                    isShowingListings.toggle()
+                }
+        .sheet(isPresented: $isShowingListings) {
+                   // Sheet displaying listings included in this collection
+                   CollectionListingsView(collection: collection)
+               }
     }
 }
+
+struct CollectionListingsView: View {
+    let collection: Collection
+
+    var body: some View {
+        NavigationView {
+            // List of listings in this collection
+            List(collection.listings, id: \.id) { listing in
+                NavigationLink(destination: ListingView(listing: listing)) {
+                    Text(listing.title)
+                }
+            }
+        }
+        .navigationBarTitle(Text("Listings in \(collection.name)"))
+    }
+}
+
 
 struct CreateCollectionView: View {
     @Binding var isPresented: Bool
     @Binding var collectionName: String
     
+    @EnvironmentObject var dataAccess: DataAccess
+
     var body: some View {
         NavigationView {
             VStack {
@@ -190,6 +286,8 @@ struct CreateCollectionView: View {
                     
                     Button(action: {
                         // Action to create collection
+                        dataAccess.createCollection(name: collectionName)
+                        dataAccess.saveLoggedInUserCollections(for: dataAccess.loggedInUser!)
                         isPresented = false
                     }) {
                         Text("Create")
@@ -211,3 +309,4 @@ struct CreateCollectionView: View {
 #Preview {
     FavoritesView()
 }
+
