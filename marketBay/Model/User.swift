@@ -16,7 +16,7 @@ class User: Codable {
     var listings: [Listing] //for seller to manage listings
     var favorites: [Listing] //for favorites list
 
-    init(id: Int, name: String, email: String, password: String,phoneNumber: String) {
+    init(id: Int, name: String, email: String, password: String, phoneNumber: String) {
         self.id = id
         self.name = name
         self.email = email
@@ -30,6 +30,14 @@ class User: Codable {
         loadUserData()
     }
 
+    //Function to update user details
+    func updateProfile(_ name: String, _ password: String, _ phoneNumber: String){
+        self.name = name
+        self.password = password
+        self.phoneNumber = phoneNumber
+        saveUserData()
+    }
+    
     // Function to add a new listing
     func addListing(_ listing: Listing) {
         listings.append(listing)
