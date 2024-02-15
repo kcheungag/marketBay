@@ -11,8 +11,11 @@ final class DataAccess: ObservableObject {
     @Published var loggedInUser: User? = nil
     @Published var loggedInUserPostings: [Listing] = []
     @Published var loggedInUserFavorites: [Listing] = []
+    @Published var loggedInUserCollections: [Collection] = []
 
     let userFavoritesKeyPrefix = "LoggedInUserFavorites_"
+    
+    var listingsDictionary: [Int: Listing] = [:] // Mapping of listing ID to Listing object
 
     // MARK: User Management
     func login(user: User) {
@@ -115,10 +118,12 @@ final class DataAccess: ObservableObject {
             if currentUser.favorites.contains(where: { $0.id == listing.id }) {
                 // Remove listing from favorites
                 currentUser.removeFromFavorites(listing)
+                decrementFavoriteCount(for: listing)
                 completion(false)
             } else {
                 // Add listing to favorites
                 currentUser.addToFavorites(listing)
+                incrementFavoriteCount(for: listing)
                 completion(true)
             }
             // Update loggedInUserFavorites
@@ -135,10 +140,19 @@ final class DataAccess: ObservableObject {
                    print("Error: No logged-in user found")
                }
     }
-
-
-
     
+    func incrementFavoriteCount(for listing: Listing) {
+           guard var mutableListing = listingsDictionary[listing.id] else { return }
+           mutableListing.favoriteCount += 1
+           listingsDictionary[listing.id] = mutableListing
+       }
+
+    func decrementFavoriteCount(for listing: Listing) {
+           guard var mutableListing = listingsDictionary[listing.id] else { return }
+           mutableListing.favoriteCount -= 1
+           listingsDictionary[listing.id] = mutableListing
+       }
+
     // MARK: Save User
     func saveUser(_ user: User) {
            do {
@@ -151,5 +165,18 @@ final class DataAccess: ObservableObject {
                       print("Failed to encode User to Data")
                   }
        }
+    
+    // MARK: Collection Management
+        func addListingtoCollection(_ listing: Listing, toCollection collection: Collection) {
+            if let index = loggedInUserCollections.firstIndex(where: { $0.id == collection.id }) {
+                loggedInUserCollections[index].listings.append(listing)
+            }
+        }
+        
+        func removeListingtoCollection(_ listing: Listing, fromCollection collection: Collection) {
+            if let index = loggedInUserCollections.firstIndex(where: { $0.id == collection.id }) {
+                loggedInUserCollections[index].listings.removeAll(where: { $0.id == listing.id })
+            }
+        }
 
 }

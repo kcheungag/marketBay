@@ -15,6 +15,8 @@ class User: Codable {
     var phoneNumber: String
     var listings: [Listing] //for seller to manage listings
     var favorites: [Listing] //for favorites list
+    var collections: [Collection] // Add collections property
+
 
     init(id: Int, name: String, email: String, password: String, phoneNumber: String) {
         self.id = id
@@ -24,6 +26,7 @@ class User: Codable {
         self.phoneNumber = phoneNumber
         self.listings = []
         self.favorites = []
+        self.collections = []
         
         // Load user's data from UserDefaults
         saveUserData()
@@ -65,6 +68,15 @@ class User: Codable {
            saveUserData()
        }
    }
+    
+    // Function to manage collections
+    func addCollection(_ collection: Collection) {
+           collections.append(collection)
+       }
+       
+    func removeCollection(at index: Int) {
+           collections.remove(at: index)
+       }
     
     // Function to save user data to UserDefaults
      func saveUserData() {

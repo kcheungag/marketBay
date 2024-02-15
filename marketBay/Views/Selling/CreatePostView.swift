@@ -80,7 +80,7 @@ struct CreatePostView: View {
                     showAlert = true
                 } else {
                     let currentUser = dataAccess.loggedInUser!
-                    let currentListing = Listing(id: 0, title: titleIn, description: descriptionIn, category: categoryIn, price: Double(priceIn) ?? 0, seller: currentUser, email: currentUser.email, phoneNumber: currentUser.phoneNumber, status: .available)
+                    let currentListing = Listing(id: 0, title: titleIn, description: descriptionIn, category: categoryIn, price: Double(priceIn) ?? 0, seller: currentUser, email: currentUser.email, phoneNumber: currentUser.phoneNumber, status: .available, favoriteCount: 0)
                     
                     dataAccess.savePosts(post: currentListing)
                     dismiss()
