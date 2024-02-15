@@ -11,6 +11,8 @@ struct FavoritesView: View {
     @State private var showAllItems = true // Toggle between "All Items" and "Collections"
     @State private var showCreateCollection = false
     @State private var newCollectionName = ""
+    @State private var loggedInUser: User?
+
     
     @EnvironmentObject var dataAccess: DataAccess
     
@@ -94,7 +96,7 @@ struct FavoritesListView: View {
     var body: some View {
         ScrollView {
             VStack {
-                ForEach(dataAccess.loggedInUser?.favorites ?? []) { listing in
+                ForEach(dataAccess.loggedInUserFavorites) { listing in
                                     FavoriteListItemView(listing: listing)
                                         .padding(.vertical, 8)
                                 }

@@ -10,6 +10,8 @@ import Foundation
 final class DataAccess: ObservableObject {
     @Published var loggedInUser: User? = nil
     @Published var loggedInUserPostings: [Listing] = []
+    @Published var loggedInUserFavorites: [Listing] = []
+
     
     // MARK: User Management
     func login(user: User) {
@@ -18,9 +20,12 @@ final class DataAccess: ObservableObject {
             UserDefaults.standard.set(encodedData, forKey: UserDefaultsEnum.loggedInUser.rawValue)
             loggedInUser = user
             loggedInUserPostings = getPosts(idFilter: user.id).sorted(by: { $0.id > $1.id })
-        } catch {
-            print("Failed to encode User to Data")
-        }
+            // Debug print to check if user is logged in and data is retrieved properly
+                    print("User logged in: \(user)")
+                    print("User's postings: \(loggedInUserPostings)")
+                } catch {
+                    print("Failed to encode User to Data")
+                }
     }
     
     func getLoggedInUser() -> User? {
@@ -80,14 +85,32 @@ final class DataAccess: ObservableObject {
     }
     
     // MARK: Toggle Favorite Listing
-       func toggleFavorite(for user: User, listing: Listing) {
-           if let index = user.favorites.firstIndex(where: { $0.id == listing.id }) {
-                      user.favorites.remove(at: index)
-                  } else {
-               user.favorites.append(listing)
-           }
-           saveUser(user)
-       }
+    func toggleFavorite(for listing: Listing, completion: @escaping (Bool) -> Void) {
+        if let currentUser = self.loggedInUser {
+            if currentUser.favorites.contains(where: { $0.id == listing.id }) {
+                // Remove listing from favorites
+                currentUser.removeFromFavorites(listing)
+                completion(false)
+            } else {
+                // Add listing to favorites
+                currentUser.addToFavorites(listing)
+                completion(true)
+            }
+            // Update loggedInUserFavorites
+            loggedInUserFavorites = currentUser.favorites
+            // Save user data immediately after toggling favorite status
+            currentUser.saveUserData()
+            saveUser(currentUser)
+            // DEBUG
+            print("User data saved after toggling favorites: \(currentUser)")
+            print("Favorite listings stored: \(currentUser.favorites)") // Add this line
+               } else {
+                   print("Error: No logged-in user found")
+               }
+    }
+
+
+
     
     // MARK: Save User
     func saveUser(_ user: User) {
@@ -95,9 +118,11 @@ final class DataAccess: ObservableObject {
                let encodedData = try JSONEncoder().encode(user)
                UserDefaults.standard.set(encodedData, forKey: UserDefaultsEnum.loggedInUser.rawValue)
                loggedInUser = user
-           } catch {
-               print("Failed to encode User to Data")
-           }
+               loggedInUserFavorites = user.favorites // Update loggedInUserFavorites
+               print("User data saved: \(user)")
+                  } catch {
+                      print("Failed to encode User to Data")
+                  }
        }
 
 }

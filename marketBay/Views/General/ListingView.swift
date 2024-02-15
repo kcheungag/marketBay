@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ListingView: View {
     @EnvironmentObject var dataAccess: DataAccess
+    
     @State private var isFavorite: Bool = false
     @State private var showAlert = false
     @State var listing: Listing
@@ -66,17 +67,11 @@ struct ListingView: View {
                             ContactOptionsView(listing: listing)
                         }
                         // Add to Favorites Button
-                        if let currentUser = dataAccess.loggedInUser {
+                        if dataAccess.loggedInUser != nil {
                             Button(action: {
-                                if currentUser.favorites.contains(where: { $0.id == listing.id }) {
-                                    currentUser.removeFromFavorites(listing)
-                                    isFavorite = false
-                                } else {
-                                    currentUser.addToFavorites(listing)
-                                    isFavorite = true
+                                dataAccess.toggleFavorite(for: listing) { isFavoriteValue in
+                                    self.isFavorite = isFavoriteValue
                                 }
-                                // Save the updated user data to UserDefaults
-                                dataAccess.saveUser(currentUser)
                             }) {
                                 Image(systemName: isFavorite ? "heart.fill" : "heart")
                                     .padding()
@@ -121,9 +116,13 @@ struct ListingView: View {
                 .padding(.horizontal)
             }
             .onAppear{
-            if let currentUser = dataAccess.loggedInUser {
-                            isFavorite = currentUser.favorites.contains(where: { $0.id == listing.id })
+                DispatchQueue.main.async {
+                    if let loggedInUser = dataAccess.loggedInUser {
+                               isFavorite = dataAccess.loggedInUserFavorites.contains(where: { $0.id == listing.id })
+                           } else {
+                            isFavorite = false
                         }
+                    }
         }
     }
     
