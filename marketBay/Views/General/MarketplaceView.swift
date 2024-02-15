@@ -43,27 +43,32 @@ struct MarketplaceView: View {
                 .padding(.vertical)
                 
                 // Grid-like Display of Items
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
-                        ForEach(listings.filter { $0.category == selectedCategory || selectedCategory == .all }) { listing in
-                                ItemView(listing: listing)
-                            }
-                    }
+               ScrollView {
+                   LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
+                       ForEach(listings.filter { $0.category == selectedCategory || selectedCategory == .all }) { listing in
+                               ItemView(listing: listing)
+                           }
+                   }
                     .padding(.horizontal)
                 }
             }
             .padding()
         }
         .onAppear() {
-            loadDummyData()
-            dataAccess.loggedInUser = dataAccess.getLoggedInUser()
+            //loadDummyData()
+            loadListings()
         }
     }
+    
+    func loadListings() {
+           listings = dataAccess.getPosts(idFilter: nil).filter { $0.status == .available }
+           dataAccess.loggedInUser = dataAccess.getLoggedInUser()
+       }
     
     func loadDummyData() {
         
         // Remove existing posts from UserDefaults
-        // UserDefaults.standard.removeObject(forKey: UserDefaultsEnum.posts.rawValue)
+         //UserDefaults.standard.removeObject(forKey: UserDefaultsEnum.posts.rawValue)
         
         // DEBUG:
         print("Loading dummy data...")
@@ -98,8 +103,8 @@ struct MarketplaceView: View {
                    ]
             
             // Assign listings to the listings array
-            self.listings = listings
-            
+            self.listings = listings.filter { $0.status == .available }
+
             for listing in listings {
                        dataAccess.savePosts(post: listing)
                    }
@@ -111,7 +116,7 @@ struct MarketplaceView: View {
                     }
         }else {
             // If there are existing posts retrieved from UserDefaults, assign them to self.listings
-            self.listings = posts
+            self.listings = posts.filter { $0.status == .available }
         }
     }
 
