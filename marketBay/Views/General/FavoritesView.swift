@@ -16,9 +16,9 @@ struct FavoritesView: View {
     
     var body: some View {
         NavigationStack {
-            // Menu Bar 
-            MenuTemplate().environmentObject(dataAccess)
                 VStack {
+                    // Menu Bar
+                    MenuTemplate().environmentObject(dataAccess)
                     // Title
                     Spacer()
                     Text("Favorites")

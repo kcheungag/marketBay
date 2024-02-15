@@ -8,10 +8,19 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject private var appRootManager: AppRootManager
+    @EnvironmentObject var dataAccess: DataAccess
+    
     var body: some View {
-        VStack {
-            Text("PROFILE")
+        NavigationStack {
+            // Menu Bar
+            MenuTemplate().environmentObject(dataAccess)
+            VStack {
+                Text("PROFILE")
+            }
         }
+        .padding()
+        .navigationBarTitle("PROFILE")
     }
 }
 
