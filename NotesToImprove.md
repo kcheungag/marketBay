@@ -16,7 +16,11 @@ Improvements Direction:
     . status = (available, on-hold, sold, removed)
 - Function
     . In-app chats
+    . Push-ups for updates and chats
+    . Image Upload, Sequence and Edits (Cropping, Annotations)
 
+Logic of Order Completion:
+Seller Post Listing -> listing available -> Buyer Offer to Seller via Chat -> Seller accept offer -> listing on-hold -> Buyer confirm receipt of order -> listing sold -> Seller and Buyer comments and rating on each other
 
 Things To Keep Up:
 - OOPS
